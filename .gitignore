@@ -1,0 +1,9 @@
+.vs
+.idea
+.vscode
+*.sqlite
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
