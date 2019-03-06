@@ -16,6 +16,7 @@ namespace DXApplication1
         static public DataTable DataTable;
         static DataGridView _dataGridView;
         TcpServer sortServer = null;
+
         public Form1()
         {
             
