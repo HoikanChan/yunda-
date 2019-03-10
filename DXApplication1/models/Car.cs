@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace DXApplication1.models
 {
-    class CarInfo
+    class Car
     {
-      
-
-        public Guid CarInfoId { get; set; }
-        public string Name { get; set; }
+        public string CarId { get; set; }
+        public string Code { get; set; }
         public int Weight { get; set; }
         public string From { get; set; }
         public string To { get; set; }

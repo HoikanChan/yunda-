@@ -6,4 +6,4 @@
 *.ntvs*
 *.njsproj
 *.sln
-
+.packages

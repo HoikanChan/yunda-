@@ -1,0 +1,15 @@
+const express = require('express')
+const cors = require('cors')
+const morgan = require('morgan')
+const bodyParser = require('body-parser')
+const app = express()
+app.use(morgan())
+app.use(cors())
+app.use(bodyParser())
+app.get('/getCarDestination', (req, res) => {
+    const no = Math.floor(Math.random() * 100)+100
+    console.log("车号为"+req.query.id+",落格号为"+no)
+    res.send(no.toString())
+})
+app.listen(8000)
+console.log('Server started on port 8000')

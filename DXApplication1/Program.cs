@@ -26,10 +26,7 @@ namespace DXApplication1
             using(var context =new AppDbContext())
             {
                 context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
-                var car = new CarInfo { CarInfoId = new Guid() ,Name="12"};
-                context.CarInfos.Add(car);
-                context.SaveChanges();
+                context.Database.EnsureCreated(); 
             }
             Application.Run(new Form1());
         }

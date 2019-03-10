@@ -197,3 +197,5 @@ C:\Users\Administrator\source\repos\DXApplication1\DXApplication1\bin\Debug\Syst
 C:\Users\Administrator\source\repos\DXApplication1\DXApplication1\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\Users\Administrator\source\repos\DXApplication1\DXApplication1\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Users\Administrator\source\repos\DXApplication1\DXApplication1\obj\Debug\DXApplication1.exe.config
+C:\Users\Administrator\source\repos\DXApplication1\DXApplication1\bin\Debug\Nancy.dll
+C:\Users\Administrator\source\repos\DXApplication1\DXApplication1\bin\Debug\Nancy.xml

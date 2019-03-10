@@ -9,7 +9,7 @@ namespace DXApplication1.models
 {
     class AppDbContext:DbContext
     {
-        public DbSet<CarInfo> CarInfos { get; set; }
+        public DbSet<Car> Car { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseMySql("Data Source=localhost;port=3306;Database=yunda;User=root;Password=123456");
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -1,9 +1,11 @@
-﻿using System;
+﻿using DXApplication1.models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace DXApplication1
@@ -21,7 +23,6 @@ namespace DXApplication1
         public IPAddress Address { get; private set; }      // 监听的IP地址
         public int Port { get; private set; }               // 监听的端口
         public Encoding Encoding { get; set; }              // 通信使用的编码
-
 
         public List<string> _client_msg = new List<string>();     //接收到的客户端数据
         public List<Socket> _client_Socket = new List<Socket>();
@@ -241,7 +242,7 @@ namespace DXApplication1
         public event EventHandler<AsyncSocketEventArgs> DataReceived;
 
 
-        private void RaiseDataReceived(AsyncSocketState state,int bytesRead)
+         private void RaiseDataReceived(AsyncSocketState state,int bytesRead)
         {
             if (DataReceived != null)
             {
@@ -250,6 +251,24 @@ namespace DXApplication1
             // 把获取到的数据记录到数组中
             string buffer_string = System.Text.Encoding.ASCII.GetString(state.RecvDataBuffer,0,bytesRead);
             Console.WriteLine(buffer_string);
+            //Regex rx = new Regex(@"^\[C(\S*?)\](\S*)");
+            //Match match = rx.Match(buffer_string);
+            //var code = match.Groups[2].Value;
+            //var carId = match.Groups[1].Value;
+            //using (var context = new AppDbContext())
+            //{
+            //    context.Database.EnsureDeleted();
+            //    context.Database.EnsureCreated();
+            //    var car = new Car { CarId = carId, Code = code };
+            //    context.Car.Add(car);
+            //    context.SaveChanges();
+            //}
+            //Console.WriteLine("head is {0} and content is {1}", carId, match.Groups[2].Value);
+            //var res = await HttpHandler.Request("http://localhost:8000/getCarDestination");
+            //Console.WriteLine(res);
+
+            //Send(state.ClientSocket, Encoding.ASCII.GetBytes(carId));
+
             Form1.UpdateDataTable(buffer_string);
             state.RecvDataBuffer = new byte[1024];
             _client_msg.Add(buffer_string);

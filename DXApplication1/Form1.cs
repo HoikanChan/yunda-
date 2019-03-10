@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace DXApplication1
@@ -15,13 +16,14 @@ namespace DXApplication1
         public IPEndPoint serverIpEndpoint { get; private set; }
         static public DataTable DataTable;
         static DataGridView _dataGridView;
-        TcpServer sortServer = null;
+        public TcpServer sortServer = null;
 
         public Form1()
         {
             
 
             InitializeComponent();
+        
 
 
         }
@@ -67,6 +69,11 @@ namespace DXApplication1
             serverIpEndpoint = new IPEndPoint(serverIP, 8080);
             sortServer = new TcpServer(serverIpEndpoint);
             sortServer.Start();
+
+            // 【线程初始化】读取服务器接收到的数据的线程
+            RecieveDataThread = new Thread(RecieveDataThreadMethod);
+            RecieveDataThread.IsBackground = true;
+            RecieveDataThread.Start();
         }
 
         private void dataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
