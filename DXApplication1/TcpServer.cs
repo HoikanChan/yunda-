@@ -269,7 +269,6 @@ namespace DXApplication1
 
             //Send(state.ClientSocket, Encoding.ASCII.GetBytes(carId));
 
-            Form1.UpdateDataTable(buffer_string);
             state.RecvDataBuffer = new byte[1024];
             _client_msg.Add(buffer_string);
             _client_Socket.Add(state.ClientSocket);

@@ -1,5 +1,6 @@
 ﻿using DXApplication1.models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -68,10 +69,33 @@ namespace DXApplication1
             {
                 Regex rx = new Regex(@"^\[C(\S*?)\](\S*)");
                 Match match = rx.Match(data);
-                var code = match.Groups[2].Value;
+                var orderNumber = match.Groups[2].Value;
                 var carId = match.Groups[1].Value;
-              
-                Console.WriteLine("小车编号 is {0} and 条码 is {1}", carId, match.Groups[2].Value);
+                try
+                {
+                    CarsDict.Add(carId, new Car() { CarId = carId, OrderNumber = orderNumber, SacnTime = utils.Times.GetTimeStamp() });
+                    LogsList.Add(new Log()
+                    {
+                        Type = LogType.success,
+                        CarId = carId,
+                        Created = utils.Times.GetTime(),
+                        //Content = "小车编号：" + carId + "已扫描。条码为" + orderNumber
+                        Content = "Car id: " + carId + " scaned. Order number is " + orderNumber
+                    });
+                }
+                catch (Exception e)
+                {
+                    LogsList.Add(new Log()
+                    {
+                        Type = LogType.error,
+                        CarId = carId,
+                        Created = utils.Times.GetTime(),
+                        //Content = "小车编号：" + carId + "已扫描。条码为" + orderNumber
+                        Content = "!!!Car repeated : " + carId + " scaned. Order number is " + orderNumber
+                    });
+                    Console.WriteLine(e.ToString());
+                }
+                
                 var res = await HttpHandler.Request("http://localhost:8000/getCarDestination?id="+ carId);
                 sortServer.Send(socket, Encoding.ASCII.GetBytes(carId + res));
             }
@@ -81,14 +105,24 @@ namespace DXApplication1
                 Match match = rx.Match(data);
                 var to = match.Groups[2].Value;
                 var carId = match.Groups[1].Value;
-
-                //using (var context = new AppDbContext())
-                //{
-                //    var car = new Car { CarId = carId, To = to };
-                //    context.Car.Add(car);
-                //    context.SaveChanges();
-                //}
-                Console.WriteLine("小车编号 is {0} and 落格号 is {1}", carId, match.Groups[2].Value);
+                if (CarsDict.ContainsKey(carId))
+                {
+                    CarsDict[carId].ArrivalTime = utils.Times.GetTimeStamp();
+                    CarsDict[carId].To = to;
+                }
+                else
+                {
+                    Console.WriteLine("车号{0}未扫描", carId);
+                }
+                LogsList.Add(new Log()
+                {
+                    Type = LogType.success,
+                    CarId = carId,
+                    //Content = "小车编号：" + carId + "已落格。落格号为" + to
+                    Content = "Car Id : " + carId + " arrived. Arriaval Check is" + to,
+                    Created = utils.Times.GetTime()
+                });
+                Console.WriteLine("小车编号 : {0} and 落格号 : {1}", carId, match.Groups[2].Value);
 
             }
         }

@@ -7,3 +7,6 @@
 *.njsproj
 *.sln
 .packages
+nodeServer/node_modules
+DXApplication1/bin
+DXApplication1/obj/Debug

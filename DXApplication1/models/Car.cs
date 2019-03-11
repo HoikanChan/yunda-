@@ -6,12 +6,22 @@ using System.Threading.Tasks;
 
 namespace DXApplication1.models
 {
-    class Car
+    public class Car
     {
+        public Guid Id { get; set; }
+        // 小车Id
         public string CarId { get; set; }
-        public string Code { get; set; }
+        // 订单号
+        public string OrderNumber { get; set; }
+        // 扫描时间
+        public string SacnTime { get; set; }
+        // 落格时间
+        public string ArrivalTime { get; set; }
+        // 重量
         public int Weight { get; set; }
+        // 来源
         public string From { get; set; }
+        // 落格号
         public string To { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DXApplication1.models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,37 +18,42 @@ namespace DXApplication1
         static public DataTable DataTable;
         static DataGridView _dataGridView;
         public TcpServer sortServer = null;
-
+        public Dictionary<string, Car> CarsDict;
+        public List<Log> LogsList = new List<Log>();
         public Form1()
         {
-            
-
-            InitializeComponent();
-        
-
-
+            InitializeComponent();  
         }
 
         private DataTable initDataTable()
         {
             DataTable = new DataTable();//创建DataTable对象
-            List<string> colNames = new List<string> { "序号", "时间", "小车", "条形码", "重量" };
-            foreach(string colName in colNames)
+            List<string> colNames = new List<string> { "小车序号", "扫描时间", "小车条形码", "到达时间", "落格口" };
+            int i = 0;
+            foreach (string colName in colNames)
             {
                 DataTable.Columns.Add(colName, System.Type.GetType("System.String"));
+
+                i++;
             }
             
             return DataTable;
 
         }
-        static public void UpdateDataTable(string msg)
+        public void UpdateDataTable(Car car)
         {
             DataRow dataRow = Form1.DataTable.NewRow();
-            dataRow[0] = msg;
+            dataRow[0] = car.CarId;
+            dataRow[1] = utils.Times.TimeStamp2Time(int.Parse(car.SacnTime));
+            dataRow[2] = car.OrderNumber;
+            dataRow[3] = utils.Times.TimeStamp2Time(int.Parse(car.ArrivalTime));
+            dataRow[4] = car.To;
+
             DataTable.Rows.Add(dataRow);
-            _dataGridView.Invoke(new Action(() =>
+            dataGridView.Invoke(new Action(() =>
             {
-                _dataGridView.DataSource = DataTable;
+                dataGridView.DataSource = typeof(List<>);
+                dataGridView.DataSource = DataTable;
             }));
         }
 
@@ -61,8 +67,33 @@ namespace DXApplication1
         private void Form1_Load(object sender, EventArgs e)
         {
             Console.Write("here");
-            _dataGridView = dataGridView;
+            CarsDict = new Dictionary<string, Car>();
             dataGridView.DataSource = initDataTable();
+            int width = 0;
+            //对于DataGridView的每一个列都调整
+            for (int i = 0; i < dataGridView.Columns.Count; i++)
+            {
+                //将每一列都调整为自动适应模式
+                dataGridView.AutoResizeColumn(i, DataGridViewAutoSizeColumnMode.AllCells);
+                //记录整个DataGridView的宽度
+                width += dataGridView.Columns[i].Width;
+            }
+            //dataGridView.Columns[0].FillWeight = 40;
+            //dataGridView.Columns[4].FillWeight = 40;
+
+            //判断调整后的宽度与原来设定的宽度的关系，如果是调整后的宽度大于原来设定的宽度，
+            //则将DataGridView的列自动调整模式设置为显示的列即可，
+            //如果是小于原来设定的宽度，将模式改为填充。
+            if (width > dataGridView.Size.Width)
+            {
+                dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            }
+            else
+            {
+                dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            }
+            //冻结某列 从左开始 0，1，2
+            dataGridView.Columns[1].Frozen = true;
 
             // 【分拣机服务端初始化】
             IPAddress serverIP = IPAddress.Parse("127.0.0.1");
@@ -74,6 +105,10 @@ namespace DXApplication1
             RecieveDataThread = new Thread(RecieveDataThreadMethod);
             RecieveDataThread.IsBackground = true;
             RecieveDataThread.Start();
+            // 【线程初始化】写入数据的线程
+            DBRecordThread = new Thread(DBRecordThreadMethod);
+            DBRecordThread.IsBackground = true;
+            DBRecordThread.Start();
         }
 
         private void dataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
