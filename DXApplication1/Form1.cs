@@ -15,7 +15,7 @@ namespace DXApplication1
     public partial class Form1 : DevExpress.XtraEditors.XtraForm
     {
         public IPEndPoint serverIpEndpoint { get; private set; }
-        static public DataTable DataTable;
+        static public DataTable StateDataTable;
         //static DataGridView _dataGridView;
         public TcpServer sortServer = null;
         public Dictionary<string, Car> CarsDict;
@@ -28,23 +28,23 @@ namespace DXApplication1
             InitializeComponent();  
         }
         #region 初始化小车状态列表
-        private void InitStatusDataTable()
+        private void InitStateDataTable()
         {
-            DataTable = new DataTable();//创建DataTable对象
+            StateDataTable = new DataTable();//创建DataTable对象
             new List<string> { "小车序号", "单号", "称重", "格口", "集包编号" , "目的站点" }.ForEach(colName =>
             {
-                DataTable.Columns.Add(colName, System.Type.GetType("System.String"));
+                StateDataTable.Columns.Add(colName, System.Type.GetType("System.String"));
 
             });
             DataColumn[] keys = new DataColumn[1];
         
-            keys[0] = DataTable.Columns[0];
-            DataTable.PrimaryKey = keys;
+            keys[0] = StateDataTable.Columns[0];
+            StateDataTable.PrimaryKey = keys;
             for (int i = 1; i < CarTotals + 1; i++)
             {
                 object[] grid_temp_row = new object[3];
                 grid_temp_row[0] = i.ToString().PadLeft(4, '0');
-                DataTable.LoadDataRow(grid_temp_row, LoadOption.OverwriteChanges);
+                StateDataTable.LoadDataRow(grid_temp_row, LoadOption.OverwriteChanges);
             }
                 //int width = 0;
                 ////对于DataGridView的每一个列都调整
@@ -72,34 +72,38 @@ namespace DXApplication1
                 //冻结某列 从左开始 0，1，2
                 //dataGridView.Columns[1].Frozen = true;
 
-                dataGridView.DataSource = DataTable;
+                dataGridView.DataSource = StateDataTable;
         }
         #endregion
         #region 初始化集包编号和格口表
         private void InitPackageNoTable()
         {
-            using(var dbContext = new AppDbContext())
+            using (var dbContext = new AppDbContext())
             {
-                var cars = dbContext.Cars.ToList<Car>();
-                PackageNoGridView.DataSource = cars;
+                var mappings = dbContext.PackageGridMappings.ToList<PackageGridMapping>();
+                PackageNoGridView.DataSource = mappings;
+                PackageNoGridView.Columns[0].HeaderText = "格口ID";
+                PackageNoGridView.Columns[1].HeaderText = "目的站点";
+                PackageNoGridView.Columns[2].HeaderText = "集包编号";
+
             }
 
         }
         #endregion
         public void UpdateDataTable(Car car)
         {
-            DataRow dataRow = Form1.DataTable.NewRow();
+            object[] dataRow = new object[6];
             dataRow[0] = car.CarId;
             dataRow[1] = utils.Times.TimeStamp2Time(int.Parse(car.SacnTime));
             dataRow[2] = car.OrderNumber;
             dataRow[3] = utils.Times.TimeStamp2Time(int.Parse(car.ArrivalTime));
             dataRow[4] = car.To;
 
-            DataTable.Rows.Add(dataRow);
+            StateDataTable.LoadDataRow(dataRow, LoadOption.OverwriteChanges);
             dataGridView.Invoke(new Action(() =>
             {
                 dataGridView.DataSource = typeof(List<>);
-                dataGridView.DataSource = DataTable;
+                dataGridView.DataSource = StateDataTable;
             }));
         }
 
@@ -114,8 +118,8 @@ namespace DXApplication1
         {
             Console.Write("here");
             CarsDict = new Dictionary<string, Car>();
-            InitStatusDataTable();
-  
+            InitStateDataTable();
+            InitPackageNoTable();
             // 【分拣机服务端初始化】
             IPAddress serverIP = IPAddress.Parse("127.0.0.1");
             serverIpEndpoint = new IPEndPoint(serverIP, 8080);

@@ -43,17 +43,17 @@
             this.dataGridView.Location = new System.Drawing.Point(12, 37);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.RowTemplate.Height = 23;
-            this.dataGridView.Size = new System.Drawing.Size(656, 534);
+            this.dataGridView.Size = new System.Drawing.Size(673, 534);
             this.dataGridView.TabIndex = 0;
             this.dataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellContentClick);
             // 
             // PackageNoGridView
             // 
             this.PackageNoGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.PackageNoGridView.Location = new System.Drawing.Point(686, 37);
+            this.PackageNoGridView.Location = new System.Drawing.Point(718, 37);
             this.PackageNoGridView.Name = "PackageNoGridView";
             this.PackageNoGridView.RowTemplate.Height = 23;
-            this.PackageNoGridView.Size = new System.Drawing.Size(330, 534);
+            this.PackageNoGridView.Size = new System.Drawing.Size(432, 534);
             this.PackageNoGridView.TabIndex = 1;
             // 
             // bindingSource1
@@ -64,7 +64,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1190, 768);
+            this.ClientSize = new System.Drawing.Size(1190, 749);
             this.Controls.Add(this.PackageNoGridView);
             this.Controls.Add(this.dataGridView);
             this.Name = "Form1";

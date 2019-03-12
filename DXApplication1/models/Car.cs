@@ -21,7 +21,11 @@ namespace DXApplication1.models
         public int Weight { get; set; }
         // 来源
         public string From { get; set; }
+        // 集包编号
+        public string PackageNumber { get; set; }
         // 落格号
+        public string CheckNumber { get; set; }
+        // 目的站点
         public string To { get; set; }
     }
 }
