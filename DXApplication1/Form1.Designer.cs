@@ -28,64 +28,60 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.button1 = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
+            this.PackageNoGridView = new System.Windows.Forms.DataGridView();
+            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PackageNoGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView
             // 
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView.Location = new System.Drawing.Point(97, 23);
+            this.dataGridView.Location = new System.Drawing.Point(12, 37);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.RowTemplate.Height = 23;
-            this.dataGridView.Size = new System.Drawing.Size(781, 370);
+            this.dataGridView.Size = new System.Drawing.Size(656, 534);
             this.dataGridView.TabIndex = 0;
             this.dataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellContentClick);
             // 
-            // button1
+            // PackageNoGridView
             // 
-            this.button1.Location = new System.Drawing.Point(97, 399);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(781, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "导出到Excel";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.PackageNoGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.PackageNoGridView.Location = new System.Drawing.Point(686, 37);
+            this.PackageNoGridView.Name = "PackageNoGridView";
+            this.PackageNoGridView.RowTemplate.Height = 23;
+            this.PackageNoGridView.Size = new System.Drawing.Size(330, 534);
+            this.PackageNoGridView.TabIndex = 1;
             // 
-            // label2
+            // bindingSource1
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 23);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(79, 14);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "智能分拣系统";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
+            this.bindingSource1.CurrentChanged += new System.EventHandler(this.bindingSource1_CurrentChanged);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(890, 432);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(1190, 768);
+            this.Controls.Add(this.PackageNoGridView);
             this.Controls.Add(this.dataGridView);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PackageNoGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.DataGridView dataGridView;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.DataGridView PackageNoGridView;
+        private System.Windows.Forms.BindingSource bindingSource1;
     }
 }
 

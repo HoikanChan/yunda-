@@ -16,30 +16,76 @@ namespace DXApplication1
     {
         public IPEndPoint serverIpEndpoint { get; private set; }
         static public DataTable DataTable;
-        static DataGridView _dataGridView;
+        //static DataGridView _dataGridView;
         public TcpServer sortServer = null;
         public Dictionary<string, Car> CarsDict;
+        public Queue<Car> CarsDbQueue = new Queue<Car>();
+        public const int CarTotals = 100;
+
         public List<Log> LogsList = new List<Log>();
         public Form1()
         {
             InitializeComponent();  
         }
-
-        private DataTable initDataTable()
+        #region 初始化小车状态列表
+        private void InitStatusDataTable()
         {
             DataTable = new DataTable();//创建DataTable对象
-            List<string> colNames = new List<string> { "小车序号", "扫描时间", "小车条形码", "到达时间", "落格口" };
-            int i = 0;
-            foreach (string colName in colNames)
+            new List<string> { "小车序号", "单号", "称重", "格口", "集包编号" , "目的站点" }.ForEach(colName =>
             {
                 DataTable.Columns.Add(colName, System.Type.GetType("System.String"));
 
-                i++;
+            });
+            DataColumn[] keys = new DataColumn[1];
+        
+            keys[0] = DataTable.Columns[0];
+            DataTable.PrimaryKey = keys;
+            for (int i = 1; i < CarTotals + 1; i++)
+            {
+                object[] grid_temp_row = new object[3];
+                grid_temp_row[0] = i.ToString().PadLeft(4, '0');
+                DataTable.LoadDataRow(grid_temp_row, LoadOption.OverwriteChanges);
             }
-            
-            return DataTable;
+                //int width = 0;
+                ////对于DataGridView的每一个列都调整
+                //for (int i = 0; i < dataGridView.Columns.Count; i++)
+                //{
+                //    //将每一列都调整为自动适应模式
+                //    dataGridView.AutoResizeColumn(i, DataGridViewAutoSizeColumnMode.AllCells);
+                //    //记录整个DataGridView的宽度
+                //    width += dataGridView.Columns[i].Width;
+                //}
+                ////dataGridView.Columns[0].FillWeight = 40;
+                ////dataGridView.Columns[4].FillWeight = 40;
+
+                ////判断调整后的宽度与原来设定的宽度的关系，如果是调整后的宽度大于原来设定的宽度，
+                ////则将DataGridView的列自动调整模式设置为显示的列即可，
+                ////如果是小于原来设定的宽度，将模式改为填充。
+                //if (width > dataGridView.Size.Width)
+                //{
+                //    dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+                //}
+                //else
+                //{
+                //    dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                //}
+                //冻结某列 从左开始 0，1，2
+                //dataGridView.Columns[1].Frozen = true;
+
+                dataGridView.DataSource = DataTable;
+        }
+        #endregion
+        #region 初始化集包编号和格口表
+        private void InitPackageNoTable()
+        {
+            using(var dbContext = new AppDbContext())
+            {
+                var cars = dbContext.Cars.ToList<Car>();
+                PackageNoGridView.DataSource = cars;
+            }
 
         }
+        #endregion
         public void UpdateDataTable(Car car)
         {
             DataRow dataRow = Form1.DataTable.NewRow();
@@ -68,33 +114,8 @@ namespace DXApplication1
         {
             Console.Write("here");
             CarsDict = new Dictionary<string, Car>();
-            dataGridView.DataSource = initDataTable();
-            int width = 0;
-            //对于DataGridView的每一个列都调整
-            for (int i = 0; i < dataGridView.Columns.Count; i++)
-            {
-                //将每一列都调整为自动适应模式
-                dataGridView.AutoResizeColumn(i, DataGridViewAutoSizeColumnMode.AllCells);
-                //记录整个DataGridView的宽度
-                width += dataGridView.Columns[i].Width;
-            }
-            //dataGridView.Columns[0].FillWeight = 40;
-            //dataGridView.Columns[4].FillWeight = 40;
-
-            //判断调整后的宽度与原来设定的宽度的关系，如果是调整后的宽度大于原来设定的宽度，
-            //则将DataGridView的列自动调整模式设置为显示的列即可，
-            //如果是小于原来设定的宽度，将模式改为填充。
-            if (width > dataGridView.Size.Width)
-            {
-                dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
-            }
-            else
-            {
-                dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            }
-            //冻结某列 从左开始 0，1，2
-            dataGridView.Columns[1].Frozen = true;
-
+            InitStatusDataTable();
+  
             // 【分拣机服务端初始化】
             IPAddress serverIP = IPAddress.Parse("127.0.0.1");
             serverIpEndpoint = new IPEndPoint(serverIP, 8080);
@@ -183,5 +204,10 @@ namespace DXApplication1
             MessageBox.Show("文件： " + fileName + ".xls 保存成功", "信息提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         #endregion
+
+        private void bindingSource1_CurrentChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

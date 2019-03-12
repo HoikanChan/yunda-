@@ -25,7 +25,7 @@ namespace DXApplication1
             UserLookAndFeel.Default.SetSkinStyle("DevExpress Style");
             using(var context =new AppDbContext())
             {
-                context.Database.EnsureDeleted();
+                //context.Database.EnsureDeleted();
                 context.Database.EnsureCreated(); 
             }
             Application.Run(new Form1());

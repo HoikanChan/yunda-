@@ -22,16 +22,16 @@ namespace DXApplication1
                 {
                     try
                     {
-                        lock (LogsList)
-                        {
-                            //ReaList<Log> list = LogsList;
-                            foreach (var log in LogsList)
-                            {
-                                //log.Id = new Guid();
-                                context.Logs.Add(log);
-                            }
-                            LogsList.Clear();
-                        }
+                        //lock (LogsList)
+                        //{
+                        //    //ReaList<Log> list = LogsList;
+                        //    foreach (var log in LogsList)
+                        //    {
+                        //        //log.Id = new Guid();
+                        //        context.Logs.Add(log);
+                        //    }
+                        //    LogsList.Clear();
+                        //}
 
                         if (CarsDict == null)
                         {

@@ -11,6 +11,7 @@ namespace DXApplication1.models
     {
         public DbSet<Car> Cars { get; set; }
         public DbSet<Log> Logs { get; set; }
+        public DbSet<PackageGridMapping> PackageGridMappings { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseMySql("Data Source=localhost;port=3306;Database=yunda;User=root;CharSet=utf8;Password=123456;");
