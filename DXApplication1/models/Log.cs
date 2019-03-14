@@ -14,6 +14,10 @@ namespace DXApplication1.models
         public string Content { get; set; }
         public string CarId { get; set; }
         public string Created { get; set; }
+        public override string ToString()
+        {
+            return "【" + Enum.GetName(typeof(LogType), Type) + " 】" + Content ;
+        }
     }
     public enum LogType
     {
@@ -21,4 +25,5 @@ namespace DXApplication1.models
         waring,
         error
     }
+
 }

@@ -16,6 +16,8 @@ namespace DXApplication1
     {
         public IPEndPoint serverIpEndpoint { get; private set; }
         static public DataTable StateDataTable;
+        static public DataTable ResultDataTable;
+
         //static DataGridView _dataGridView;
         public TcpServer sortServer = null;
         public Dictionary<string, Car> CarsDict;
@@ -23,6 +25,17 @@ namespace DXApplication1
         public const int CarTotals = 100;
 
         public List<Log> LogsList = new List<Log>();
+
+        // 【定义小车货物重量】
+        struct CarWeigthData
+        {
+            public string sorterId;                                     // 分拣机号
+            public string weight;                                       // 称重
+            public string weight_time;                                  // 称重时间
+            public string scan_time;                                    // 扫描时间
+        }
+        // 【初始化定义小车货物重量】
+        CarWeigthData[] CarWeigthDatas = new CarWeigthData[CarTotals];
         public Form1()
         {
             InitializeComponent();  
@@ -46,35 +59,37 @@ namespace DXApplication1
                 grid_temp_row[0] = i.ToString().PadLeft(4, '0');
                 StateDataTable.LoadDataRow(grid_temp_row, LoadOption.OverwriteChanges);
             }
-                //int width = 0;
-                ////对于DataGridView的每一个列都调整
-                //for (int i = 0; i < dataGridView.Columns.Count; i++)
-                //{
-                //    //将每一列都调整为自动适应模式
-                //    dataGridView.AutoResizeColumn(i, DataGridViewAutoSizeColumnMode.AllCells);
-                //    //记录整个DataGridView的宽度
-                //    width += dataGridView.Columns[i].Width;
-                //}
-                ////dataGridView.Columns[0].FillWeight = 40;
-                ////dataGridView.Columns[4].FillWeight = 40;
+            #region 调整 列宽
+            //int width = 0;
+            ////对于DataGridView的每一个列都调整
+            //for (int i = 0; i < dataGridView.Columns.Count; i++)
+            //{
+            //    //将每一列都调整为自动适应模式
+            //    dataGridView.AutoResizeColumn(i, DataGridViewAutoSizeColumnMode.AllCells);
+            //    //记录整个DataGridView的宽度
+            //    width += dataGridView.Columns[i].Width;
+            //}
+            ////dataGridView.Columns[0].FillWeight = 40;
+            ////dataGridView.Columns[4].FillWeight = 40;
 
-                ////判断调整后的宽度与原来设定的宽度的关系，如果是调整后的宽度大于原来设定的宽度，
-                ////则将DataGridView的列自动调整模式设置为显示的列即可，
-                ////如果是小于原来设定的宽度，将模式改为填充。
-                //if (width > dataGridView.Size.Width)
-                //{
-                //    dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
-                //}
-                //else
-                //{
-                //    dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                //}
-                //冻结某列 从左开始 0，1，2
-                //dataGridView.Columns[1].Frozen = true;
-
-                dataGridView.DataSource = StateDataTable;
+            ////判断调整后的宽度与原来设定的宽度的关系，如果是调整后的宽度大于原来设定的宽度，
+            ////则将DataGridView的列自动调整模式设置为显示的列即可，
+            ////如果是小于原来设定的宽度，将模式改为填充。
+            //if (width > dataGridView.Size.Width)
+            //{
+            //    dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            //}
+            //else
+            //{
+            //    dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            //}
+            //冻结某列 从左开始 0，1，2
+            //dataGridView.Columns[1].Frozen = true;
+            #endregion
+            dataGridView.DataSource = StateDataTable;
         }
         #endregion
+
         #region 初始化集包编号和格口表
         private void InitPackageNoTable()
         {
@@ -90,15 +105,41 @@ namespace DXApplication1
 
         }
         #endregion
+
+        #region 初始化小车状态列表
+        private void InitResultDataTable()
+        {
+            ResultDataTable = new DataTable();//创建DataTable对象
+            new List<string> { "ID", "单号", "称重台号","重量", "格口", "集包编号", "目的站点" ,"小车号", "扫描时间" , "称重时间" ,"落格时间"}.ForEach(colName =>
+            {
+                ResultDataTable.Columns.Add(colName, System.Type.GetType("System.String"));
+
+            });
+            DataColumn[] keys = new DataColumn[1];
+
+            keys[0] = ResultDataTable.Columns[0];
+            ResultDataTable.PrimaryKey = keys;
+            for (int i = 1; i < CarTotals + 1; i++)
+            {
+                object[] grid_temp_row = new object[3];
+                grid_temp_row[0] = i.ToString().PadLeft(4, '0');
+                ResultDataTable.LoadDataRow(grid_temp_row, LoadOption.OverwriteChanges);
+            }
+            resultGridView.DataSource = ResultDataTable;
+        }
+        #endregion
+
+        #region 更新小车状态表
         public void UpdateDataTable(Car car)
         {
             object[] dataRow = new object[6];
             dataRow[0] = car.CarId;
-            dataRow[1] = utils.Times.TimeStamp2Time(int.Parse(car.SacnTime));
-            dataRow[2] = car.OrderNumber;
-            dataRow[3] = utils.Times.TimeStamp2Time(int.Parse(car.ArrivalTime));
-            dataRow[4] = car.To;
-
+            dataRow[1] = car.OrderNumber;
+            dataRow[2] = car.Weight;
+            dataRow[3] = car.CheckNumber;
+            dataRow[4] = car.PackageNumber;
+            dataRow[5] = car.To;
+            Console.WriteLine("写入小车表格：" + car.ToString());
             StateDataTable.LoadDataRow(dataRow, LoadOption.OverwriteChanges);
             dataGridView.Invoke(new Action(() =>
             {
@@ -106,20 +147,25 @@ namespace DXApplication1
                 dataGridView.DataSource = StateDataTable;
             }));
         }
-
-            //for (int i = 0; i < 20; i++)
-            //{
-            //    DataRow dr = dt.NewRow();//创建1行
-            //    dr[0] = i;//添加第一列数据
-            //    dr[1] = Convert.ToString((i + 80) / 3);//添加第二列数据
-            //    DataTable.Rows.Add(dr);//把行加入到；列表中     
-            //}
+        #endregion
+        //for (int i = 0; i < 20; i++)
+        //{
+        //    DataRow dr = dt.NewRow();//创建1行
+        //    dr[0] = i;//添加第一列数据
+        //    dr[1] = Convert.ToString((i + 80) / 3);//添加第二列数据
+        //    DataTable.Rows.Add(dr);//把行加入到；列表中     
+        //}
         private void Form1_Load(object sender, EventArgs e)
         {
+            using (var context = new AppDbContext())
+            {
+                context.Database.EnsureCreated();
+            }
             Console.Write("here");
             CarsDict = new Dictionary<string, Car>();
             InitStateDataTable();
             InitPackageNoTable();
+            InitResultDataTable();
             // 【分拣机服务端初始化】
             IPAddress serverIP = IPAddress.Parse("127.0.0.1");
             serverIpEndpoint = new IPEndPoint(serverIP, 8080);
@@ -134,6 +180,15 @@ namespace DXApplication1
             DBRecordThread = new Thread(DBRecordThreadMethod);
             DBRecordThread.IsBackground = true;
             DBRecordThread.Start();
+            // 【线程初始化】写入数据的线程
+            LogThread = new Thread(LogThreadMethod);
+            LogThread.IsBackground = true;
+            LogThread.Start();
+            // 【线程初始化】读取串口的线程
+            InitPort();
+            PortReadingThread = new Thread(PortReadingThreadMethod);
+            PortReadingThread.IsBackground = true;
+            PortReadingThread.Start();
         }
 
         private void dataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -210,6 +265,11 @@ namespace DXApplication1
         #endregion
 
         private void bindingSource1_CurrentChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPage1_Click(object sender, EventArgs e)
         {
 
         }

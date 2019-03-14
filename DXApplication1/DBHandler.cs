@@ -22,49 +22,35 @@ namespace DXApplication1
                 {
                     try
                     {
-                        //lock (LogsList)
-                        //{
-                        //    //ReaList<Log> list = LogsList;
-                        //    foreach (var log in LogsList)
-                        //    {
-                        //        //log.Id = new Guid();
-                        //        context.Logs.Add(log);
-                        //    }
-                        //    LogsList.Clear();
-                        //}
-
-                        if (CarsDict == null)
+                        Car[] cars = new Car[0];
+                        Log[] logs = new Log[0]; ;
+                        if (CarsDbQueue.Count != 0)
                         {
-                            Thread.Sleep(2000);
-                            return;
-                        }
-                        else
-                        {
-                            List<string> keysToRemove = new List<string>();
-                            lock (CarsDict)
+                            lock (CarsDbQueue)
                             {
-                                foreach (var CarItem in CarsDict)
-                                {
-                                    Car car = CarItem.Value;
-                                    if (!String.IsNullOrEmpty(car.ArrivalTime))
-                                    {
-                                        car.Id = new Guid();
-                                        keysToRemove.Add(CarItem.Key);
-                                        context.Cars.Add(car);
-                                        UpdateDataTable(car);
-                                    }
-
-                                }
-                                foreach (string key in keysToRemove)
-                                {
-                                    CarsDict.Remove(key);
-                                }
+                                cars = CarsDbQueue.ToArray();
+                                CarsDbQueue.Clear();
                             }
+                            Array.ForEach(cars, Car => context.Cars.Add(Car));
                         }
-                        context.SaveChanges();
-                    }catch(Exception e)
+                        if (LogsQueue.Count != 0)
+                        {
+                            lock (LogsQueue)
+                            {
+                                logs = LogsQueue.ToArray();
+                                LogsQueue.Clear();
+                            }
+                            Array.ForEach(logs, Log => context.Logs.Add(Log));
+                        }
+                            if (cars.Length != 0 || logs.Length != 0)
+                        {
+                            int result = context.SaveChanges();
+                            Console.WriteLine("已插入{0}条数据", result);
+                        }
+                    }
+                    catch(Exception e)
                     {
-                        Console.WriteLine(e.ToString());
+                        AddErrorLog("【写入数据库错误】" + e.Message);
                     }
                 }
                 Thread.Sleep(1000);
