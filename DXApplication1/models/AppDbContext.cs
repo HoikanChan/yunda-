@@ -18,8 +18,6 @@ namespace DXApplication1.models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            //配置表模型信息
         }
     }
 }

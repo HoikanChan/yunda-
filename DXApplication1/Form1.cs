@@ -106,25 +106,15 @@ namespace DXApplication1
         }
         #endregion
 
-        #region 初始化小车状态列表
+        #region 初始化小车结果列表
         private void InitResultDataTable()
         {
             ResultDataTable = new DataTable();//创建DataTable对象
-            new List<string> { "ID", "单号", "称重台号","重量", "格口", "集包编号", "目的站点" ,"小车号", "扫描时间" , "称重时间" ,"落格时间"}.ForEach(colName =>
+            new List<string> { "小车号", "单号", "称重台号","重量", "格口", "集包编号", "目的站点" , "扫描时间" , "称重时间" ,"落格时间"}.ForEach(colName =>
             {
                 ResultDataTable.Columns.Add(colName, System.Type.GetType("System.String"));
 
             });
-            DataColumn[] keys = new DataColumn[1];
-
-            keys[0] = ResultDataTable.Columns[0];
-            ResultDataTable.PrimaryKey = keys;
-            for (int i = 1; i < CarTotals + 1; i++)
-            {
-                object[] grid_temp_row = new object[3];
-                grid_temp_row[0] = i.ToString().PadLeft(4, '0');
-                ResultDataTable.LoadDataRow(grid_temp_row, LoadOption.OverwriteChanges);
-            }
             resultGridView.DataSource = ResultDataTable;
         }
         #endregion
@@ -146,6 +136,36 @@ namespace DXApplication1
                 dataGridView.DataSource = typeof(List<>);
                 dataGridView.DataSource = StateDataTable;
             }));
+        }
+        #endregion
+
+        #region 更新结果表
+        public void UpdateResultDataTable(Car car)
+        {
+            DataRow dataRow = ResultDataTable.NewRow();
+            dataRow[0] = car.CarId;
+            dataRow[1] = car.OrderNumber;
+            dataRow[2] = car.SorterId;
+            dataRow[3] = car.Weight;
+            dataRow[4] = car.CheckNumber;
+            dataRow[5] = car.PackageNumber;
+            dataRow[6] = car.To;
+            dataRow[7] = car.SacnTime;
+            dataRow[8] = car.WeightTime;
+            dataRow[9] = car.ArrivalTime;
+
+            Console.WriteLine("写入小车表格：" + car.ToString());
+            // 把分拣结果写入到结果表中
+            if (resultGridView.InvokeRequired)
+            {
+                resultGridView.Invoke(new Action(() =>
+                {
+                    ResultDataTable.BeginLoadData();
+                    ResultDataTable.Rows.Add(dataRow);
+                    ResultDataTable.EndLoadData();
+                }));
+            }
+              
         }
         #endregion
         //for (int i = 0; i < 20; i++)

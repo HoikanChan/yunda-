@@ -128,9 +128,6 @@ namespace DXApplication1
             var carId = match.Groups[1].Value;
             var orderNumber = match.Groups[2].Value;
             var carIndex = int.Parse(carId);
-
-        
-
             var packageNumber = await Request(orderNumber);
             using (var dbContext = new AppDbContext())
             {
@@ -181,8 +178,10 @@ namespace DXApplication1
             var carId = match.Groups[1].Value;
             int carIndex = Convert.ToInt32(carId);
             var row = StateDataTable.Rows[carIndex - 1];
-            CarsDbQueue.Enqueue(new Car() {
+            Car result = new Car()
+            {
                 CarId = carId,
+                SorterId = CarWeigthDatas[carIndex].sorterId,
                 OrderNumber = row[1].ToString(),
                 Weight = row[2].ToString(),
                 CheckNumber = row[3].ToString(),
@@ -191,7 +190,9 @@ namespace DXApplication1
                 SacnTime = CarWeigthDatas[carIndex].scan_time,
                 WeightTime = CarWeigthDatas[carIndex].weight_time,
                 ArrivalTime = Times.GetTimeStamp()
-            });
+            };
+            CarsDbQueue.Enqueue(result);
+            UpdateResultDataTable(result);
             AddInfoLog("[数据-O-接收成功]{" + data + "}");
             Console.WriteLine("小车编号 : {0} and 落格号 : {1}", carId, match.Groups[2].Value);
         }

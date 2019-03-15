@@ -11,6 +11,8 @@ namespace DXApplication1.models
         public Guid Id { get; set; }
         // 小车Id
         public string CarId { get; set; }
+        // 称重台号
+        public string SorterId { get; set; }
         // 订单号
         public string OrderNumber { get; set; }
         // 称重时间
