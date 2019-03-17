@@ -400,3 +400,5 @@ E:\workspace-hoikan\yunda-workspace\yunda-\DXApplication1\obj\Debug\DXApplicatio
 E:\workspace-hoikan\yunda-workspace\yunda-\DXApplication1\obj\Debug\DXApplication1.csproj.CopyComplete
 E:\workspace-hoikan\yunda-workspace\yunda-\DXApplication1\obj\Debug\DXApplication1.exe
 E:\workspace-hoikan\yunda-workspace\yunda-\DXApplication1\obj\Debug\DXApplication1.pdb
+C:\Users\Administrator\source\repos\DXApplication1\DXApplication1\bin\Debug\log4net.dll
+C:\Users\Administrator\source\repos\DXApplication1\DXApplication1\bin\Debug\log4net.xml

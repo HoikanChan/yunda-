@@ -12,6 +12,8 @@ namespace DXApplication1
     partial class Form1
     {
         Queue<Log> LogsQueue = new Queue<Log>();
+        int log_length = 1000;
+
         public void AddInfoLog(string msg)
         {
             LogsQueue.Enqueue(new Log()
@@ -44,11 +46,36 @@ namespace DXApplication1
                     {
                         string logstring = LogsQueue.Dequeue().ToString();
                         Logger.WriteLog_info(typeof(Form1), logstring);
+                        bool scroll = false;
+                        LogsListControl.Invoke(new Action(() =>
+                        {
+                            #region 写入到测试窗口
+                            int FullIndex = LogsListControl.ItemHeight == 0 ?
+                            0 :
+                            LogsListControl.Items.Count - (int)(LogsListControl.Height / LogsListControl.ItemHeight);
+
+                            if (LogsListControl.TopIndex == FullIndex)
+                            {
+                                scroll = true;
+                            }
+                            LogsListControl.Items.Add(string.Format("[{0}]-{1}", Times.Get_this_time_without_ms(), logstring));
+                            if (scroll)
+                            {
+                                LogsListControl.TopIndex = FullIndex;
+                            }
+                            if (LogsListControl.Items.Count > log_length)
+                            {
+                                LogsListControl.Items.Clear();
+                            }
+                            #endregion
+                        }));
                     }
                     catch { }
                 }
                 Thread.Sleep(25);
             }
         }
+
+     
     }
 }

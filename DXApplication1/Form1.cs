@@ -25,7 +25,13 @@ namespace DXApplication1
         public const int CarTotals = 100;
 
         public List<Log> LogsList = new List<Log>();
-
+        public List<Label> Labels;
+        public struct IpLabelMapping
+        {
+            public string ip;
+            public Label label;
+        }
+        public static IpLabelMapping[] IpLabelMappings = new IpLabelMapping[16];
         // 【定义小车货物重量】
         struct CarWeigthData
         {
@@ -38,19 +44,19 @@ namespace DXApplication1
         CarWeigthData[] CarWeigthDatas = new CarWeigthData[CarTotals];
         public Form1()
         {
-            InitializeComponent();  
+            InitializeComponent();
         }
         #region 初始化小车状态列表
         private void InitStateDataTable()
         {
             StateDataTable = new DataTable();//创建DataTable对象
-            new List<string> { "小车序号", "单号", "称重", "格口", "集包编号" , "目的站点" }.ForEach(colName =>
-            {
-                StateDataTable.Columns.Add(colName, System.Type.GetType("System.String"));
+            new List<string> { "小车序号", "单号", "称重", "格口", "集包编号", "目的站点" }.ForEach(colName =>
+           {
+               StateDataTable.Columns.Add(colName, System.Type.GetType("System.String"));
 
-            });
+           });
             DataColumn[] keys = new DataColumn[1];
-        
+
             keys[0] = StateDataTable.Columns[0];
             StateDataTable.PrimaryKey = keys;
             for (int i = 1; i < CarTotals + 1; i++)
@@ -110,7 +116,7 @@ namespace DXApplication1
         private void InitResultDataTable()
         {
             ResultDataTable = new DataTable();//创建DataTable对象
-            new List<string> { "小车号", "单号", "称重台号","重量", "格口", "集包编号", "目的站点" , "扫描时间" , "称重时间" ,"落格时间"}.ForEach(colName =>
+            new List<string> { "小车号", "单号", "称重台号", "重量", "格口", "集包编号", "目的站点", "扫描时间", "称重时间", "落格时间" }.ForEach(colName =>
             {
                 ResultDataTable.Columns.Add(colName, System.Type.GetType("System.String"));
 
@@ -165,7 +171,7 @@ namespace DXApplication1
                     ResultDataTable.EndLoadData();
                 }));
             }
-              
+
         }
         #endregion
         //for (int i = 0; i < 20; i++)
@@ -177,6 +183,7 @@ namespace DXApplication1
         //}
         private void Form1_Load(object sender, EventArgs e)
         {
+            Labels = new List<Label>() { label1, label2, label3, label4, label5, label7, label6, label8, label9, label11, label10, label2, label3, label4, label5, label7 };
             using (var context = new AppDbContext())
             {
                 context.Database.EnsureCreated();
@@ -186,6 +193,7 @@ namespace DXApplication1
             InitStateDataTable();
             InitPackageNoTable();
             InitResultDataTable();
+            InitClientsIpAddress();
             // 【分拣机服务端初始化】
             IPAddress serverIP = IPAddress.Parse("127.0.0.1");
             serverIpEndpoint = new IPEndPoint(serverIP, 8080);
@@ -204,94 +212,17 @@ namespace DXApplication1
             LogThread = new Thread(LogThreadMethod);
             LogThread.IsBackground = true;
             LogThread.Start();
-            // 【线程初始化】读取串口的线程
-            InitPort();
-            PortReadingThread = new Thread(PortReadingThreadMethod);
-            PortReadingThread.IsBackground = true;
-            PortReadingThread.Start();
-        }
-
-        private void dataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
+            AddInfoLog("服务器启动完毕");
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void InitClientsIpAddress()
         {
-            string a = "D:" + "\\KKHMD.xls";
-            ExportExcels(a, dataGridView);
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-        #region 处理Excel
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="fileName">文件路径</param>
-        /// <param name="myDGV">控件DataGridView</param>
-        private void ExportExcels(string fileName, DataGridView myDGV)
-        {
-            string saveFileName = "";
-            SaveFileDialog saveDialog = new SaveFileDialog();
-            saveDialog.DefaultExt = "xls";
-            saveDialog.Filter = "Excel文件|*.xls";
-            saveDialog.FileName = fileName;
-            saveDialog.ShowDialog();
-            saveFileName = saveDialog.FileName;
-            if (saveFileName.IndexOf(":") < 0) return; //被点了取消
-            Microsoft.Office.Interop.Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
-            if (xlApp == null)
+            for (int i = 0; i < 16; i++)
             {
-                MessageBox.Show("无法创建Excel对象，可能您的机子未安装Excel");
-                return;
+                IpLabelMappings[i].label = Labels[i];
+                IpLabelMappings[i].ip = "127.0.0.1:40" + i.ToString().PadLeft(2, '0');
             }
-            Microsoft.Office.Interop.Excel.Workbooks workbooks = xlApp.Workbooks;
-            Microsoft.Office.Interop.Excel.Workbook workbook = workbooks.Add(Microsoft.Office.Interop.Excel.XlWBATemplate.xlWBATWorksheet);
-            Microsoft.Office.Interop.Excel.Worksheet worksheet = (Microsoft.Office.Interop.Excel.Worksheet)workbook.Worksheets[1];//取得sheet1
-            //写入标题
-            for (int i = 0; i < myDGV.ColumnCount; i++)
-            {
-                worksheet.Cells[1, i + 1] = myDGV.Columns[i].HeaderText;
-            }
-            //写入数值
-            for (int r = 0; r < myDGV.Rows.Count; r++)
-            {
-                for (int i = 0; i < myDGV.ColumnCount; i++)
-                {
-                    worksheet.Cells[r + 2, i + 1] = myDGV.Rows[r].Cells[i].Value;
-                }
-                System.Windows.Forms.Application.DoEvents();
-            }
-            worksheet.Columns.EntireColumn.AutoFit();//列宽自适应
-            if (saveFileName != "")
-            {
-                try
-                {
-                    workbook.Saved = true;
-                    workbook.SaveCopyAs(saveFileName);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("导出文件时出错,文件可能正被打开！\n" + ex.Message);
-                }
-            }
-            xlApp.Quit();
-            GC.Collect();//强行销毁
-            MessageBox.Show("文件： " + fileName + ".xls 保存成功", "信息提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-        #endregion
-
-        private void bindingSource1_CurrentChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tabPage1_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

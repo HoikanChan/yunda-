@@ -125,7 +125,7 @@ namespace DXApplication1
                 // 接受下一个请求
                 server.BeginAccept(new AsyncCallback(HandleAcceptConnected), ar.AsyncState);
                 // 【外部使用】触发连接事件
-                //Form1.Sort_Server_client_connect_function(client.RemoteEndPoint.ToString());
+                Form1.ServerConnected(client.RemoteEndPoint.ToString());
             }
         }
 
@@ -456,7 +456,7 @@ namespace DXApplication1
         public void Close()
         {
             // 【服务器函数】有客户端断开的时候触发的函数
-            //Form1.Sort_Server_client_disconnect_function(_clientSock.RemoteEndPoint.ToString());
+            Form1.ServerDisConnected(_clientSock.RemoteEndPoint.ToString());
             // 关闭数据的接收和发送
             _clientSock.Shutdown(SocketShutdown.Both);
             // 清理资源

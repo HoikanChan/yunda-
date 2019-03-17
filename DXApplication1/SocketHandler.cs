@@ -15,10 +15,10 @@ namespace DXApplication1
         #region 正则
         // 判断供包台传来的数据 [P01][0002]0.25 01为分拣机号 0002为车号 0.25为重量
         static Regex sortWeightRex = new Regex(@"^\[P");
-        // 判断PLC第一次传来的数据 [C0002]123456789 0002为车号 12345678为对应条码
-        static Regex plcCodeRex = new Regex(@"^\[C");
-        // 判断PLC第二次传来的数据 [O0123188] 0123为车号 188代表落格号
-        static Regex plcSuccessRex = new Regex(@"^\[O");
+        // 判断PLC第一次传来的数据 [C0002][123456789]0.25 0002为车号 12345678为对应条码 0.25为重量
+        static Regex plcCodeRex = new Regex(@"^\[C(\S*?)\]\[(\S*?)\](\S*)");
+        // 判断PLC第二次传来的数据 [O0123]188 0123为车号 188代表落格号
+        static Regex plcSuccessRex = new Regex(@"^\[O(\d{4})\](\d*)$");
         #endregion
         // 【线程】读取服务器接收到的数据的线程
         Thread RecieveDataThread = null;
@@ -56,9 +56,7 @@ namespace DXApplication1
                     }
                     catch (System.Exception ex)
                     {
-                        string logstring = "[从服务器获取处理数据失败]:" + ex.Message;
-                        //log_string.Add(logstring);
-
+                        AddErrorLog("[从服务器获取处理数据失败]:" + ex.Message);
                         sortServer._client_msg.Clear();
                         sortServer._client_Socket.Clear();
                     }
@@ -72,6 +70,7 @@ namespace DXApplication1
         #region 处理Tcp传来的数据
         public void HandleTcpResponseData(Socket socket, string data)
         {
+            AddInfoLog("收到数据：" + data);
             if (sortWeightRex.IsMatch(data))
             {
                 HandleWeight( socket, data);
@@ -82,7 +81,11 @@ namespace DXApplication1
             }
             if (plcSuccessRex.IsMatch(data))
             {
-                HandlePlcSuccess(socket, data);         
+                HandlePlcSuccess(socket, data);
+            }
+            else
+            {
+                AddErrorLog("收到无效数据：" + data);
             }
         }
 
@@ -123,10 +126,12 @@ namespace DXApplication1
         #region 处理PLC传来的单号
         private async void HandlePlcCode(Socket socket, string data)
         {
-            Regex rx = new Regex(@"^\[C(\S*?)\](\S*)");
+            Regex rx = plcCodeRex;
             Match match = rx.Match(data);
             var carId = match.Groups[1].Value;
             var orderNumber = match.Groups[2].Value;
+
+            var weight = match.Groups[3].Value;
             var carIndex = int.Parse(carId);
             var packageNumber = await Request(orderNumber);
             using (var dbContext = new AppDbContext())
@@ -141,7 +146,7 @@ namespace DXApplication1
                     }
                     var checkId = mapping.CheckId;
                     sortServer.Send(socket, Encoding.ASCII.GetBytes(carId + checkId));
-                    string weight = CarWeigthDatas[carIndex].weight;
+  
                     if (string.IsNullOrEmpty(weight))
                     {
                         Console.WriteLine("未记录重量,小车号为：" + carId);
@@ -172,7 +177,7 @@ namespace DXApplication1
         #region 处理PLC成功落格回传信息
         private void HandlePlcSuccess(Socket socket, string data)
         {
-            Regex rx = new Regex(@"^\[O(\d{4})(\d*)\]$");
+            Regex rx = plcSuccessRex;
             Match match = rx.Match(data);
             var to = match.Groups[2].Value;
             var carId = match.Groups[1].Value;
@@ -198,5 +203,25 @@ namespace DXApplication1
         }
         #endregion
 
+        internal static void ServerConnected(string ipAddress)
+        {
+            var mapping = IpLabelMappings.SingleOrDefault(i => i.ip == ipAddress);
+            if(mapping.label != null)
+            {
+                mapping.label.Invoke(new Action(() => {
+                    mapping.label.Text = mapping.label.Text.Replace('离','在');
+                }));
+            }
+        }
+        internal static void ServerDisConnected(string ipAddress)
+        {
+            var mapping = IpLabelMappings.SingleOrDefault(i => i.ip == ipAddress);
+            if (mapping.label != null)
+            {
+                mapping.label.Invoke(new Action(() => {
+                    mapping.label.Text = mapping.label.Text.Replace('在', '离');
+                }));
+            }
+        } 
     }
 }
