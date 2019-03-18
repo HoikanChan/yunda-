@@ -24,6 +24,8 @@ namespace DXApplication1
         public Queue<Car> CarsDbQueue = new Queue<Car>();
         public const int CarTotals = 100;
 
+        public int SortedTotal = 0;
+
         public List<Log> LogsList = new List<Log>();
         public List<Label> Labels;
         public struct IpLabelMapping
@@ -102,10 +104,11 @@ namespace DXApplication1
             using (var dbContext = new AppDbContext())
             {
                 var mappings = dbContext.PackageGridMappings.ToList<PackageGridMapping>();
+                //DataTable 
                 PackageNoGridView.DataSource = mappings;
-                PackageNoGridView.Columns[0].HeaderText = "格口ID";
-                PackageNoGridView.Columns[1].HeaderText = "目的站点";
-                PackageNoGridView.Columns[2].HeaderText = "集包编号";
+                gridView2.Columns[0].Caption = "格口ID";
+                gridView2.Columns[1].Caption = "目的站点";
+                gridView2.Columns[2].Caption = "集包编号";
 
             }
 
@@ -136,11 +139,14 @@ namespace DXApplication1
             dataRow[4] = car.PackageNumber;
             dataRow[5] = car.To;
             Console.WriteLine("写入小车表格：" + car.ToString());
-            StateDataTable.LoadDataRow(dataRow, LoadOption.OverwriteChanges);
             dataGridView.Invoke(new Action(() =>
             {
-                dataGridView.DataSource = typeof(List<>);
-                dataGridView.DataSource = StateDataTable;
+                //dataGridView.DataSource = typeof(List<>);
+                StateDataTable.BeginLoadData();
+                StateDataTable.LoadDataRow(dataRow, LoadOption.OverwriteChanges);
+                StateDataTable.EndLoadData();
+
+                //dataGridView.DataSource = StateDataTable;
             }));
         }
         #endregion
@@ -173,6 +179,20 @@ namespace DXApplication1
             }
 
         }
+        #endregion
+        public void UpdateSortedTotalTotal()
+        {
+            if (sortedTotalLabel.InvokeRequired)
+            {
+                sortedTotalLabel.Invoke(new Action(() =>
+                {
+                    SortedTotal++;
+                    sortedTotalLabel.Text = sortedTotalLabel.Text.Substring(0, 5) + SortedTotal.ToString();
+                }));
+            }
+
+        }
+        #region
         #endregion
         //for (int i = 0; i < 20; i++)
         //{
@@ -223,6 +243,21 @@ namespace DXApplication1
                 IpLabelMappings[i].label = Labels[i];
                 IpLabelMappings[i].ip = "127.0.0.1:40" + i.ToString().PadLeft(2, '0');
             }
+        }
+
+        private void label17_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkedComboBoxEdit1_EditValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label18_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -33,15 +33,15 @@ namespace DXApplication1
                             }
                             Array.ForEach(cars, Car => context.Cars.Add(Car));
                         }
-                        if (LogsQueue.Count != 0)
-                        {
-                            lock (LogsQueue)
-                            {
-                                logs = LogsQueue.ToArray();
-                                LogsQueue.Clear();
-                            }
-                            Array.ForEach(logs, Log => context.Logs.Add(Log));
-                        }
+                        //if (LogsQueue.Count != 0)
+                        //{
+                        //    lock (LogsQueue)
+                        //    {
+                        //        logs = LogsQueue.ToArray();
+                        //        LogsQueue.Clear();
+                        //    }
+                        //    Array.ForEach(logs, Log => context.Logs.Add(Log));
+                        //}
                             if (cars.Length != 0 || logs.Length != 0)
                         {
                             int result = context.SaveChanges();

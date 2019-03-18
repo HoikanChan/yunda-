@@ -11,10 +11,10 @@ namespace DXApplication1
 {
     partial class Form1
     {
-        Queue<Log> LogsQueue = new Queue<Log>();
+        static Queue<Log> LogsQueue = new Queue<Log>();
         int log_length = 1000;
 
-        public void AddInfoLog(string msg)
+        public static void AddInfoLog(string msg)
         {
             LogsQueue.Enqueue(new Log()
             {

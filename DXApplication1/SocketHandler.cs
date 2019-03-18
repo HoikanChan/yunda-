@@ -73,13 +73,13 @@ namespace DXApplication1
             AddInfoLog("收到数据：" + data);
             if (sortWeightRex.IsMatch(data))
             {
-                HandleWeight( socket, data);
+                HandleWeight(socket, data);
             }
-            if (plcCodeRex.IsMatch(data))
+            else if (plcCodeRex.IsMatch(data))
             {
-                HandlePlcCode(socket,data);
+                HandlePlcCode(socket, data);
             }
-            if (plcSuccessRex.IsMatch(data))
+            else if (plcSuccessRex.IsMatch(data))
             {
                 HandlePlcSuccess(socket, data);
             }
@@ -92,7 +92,7 @@ namespace DXApplication1
         #endregion
 
         #region 处理供包台传来的称重信息
-        private void HandleWeight(Socket socket ,string data)
+        private void HandleWeight(Socket socket, string data)
         {
             try
             {
@@ -105,7 +105,7 @@ namespace DXApplication1
                 // 重量
                 var weight = match.Groups[3].Value;
                 int index = int.Parse(carId);
-                if(weight == "0.00")
+                if (weight == "0.00")
                 {
                     weight = "0.10";
                 }
@@ -116,7 +116,8 @@ namespace DXApplication1
 
                 AddInfoLog("[数据-P-接收成功]{" + data + "}");
             }
-            catch (System.Exception ex) {
+            catch (System.Exception ex)
+            {
                 AddErrorLog("[数据-P-处理失败]{" + data + "}:" + ex.Message);
                 return;
             }
@@ -146,7 +147,7 @@ namespace DXApplication1
                     }
                     var checkId = mapping.CheckId;
                     sortServer.Send(socket, Encoding.ASCII.GetBytes(carId + checkId));
-  
+                    AddInfoLog(string.Format("成功回传数据到供包台，小车号为{0}，格口号为{1}", carId, checkId));
                     if (string.IsNullOrEmpty(weight))
                     {
                         Console.WriteLine("未记录重量,小车号为：" + carId);
@@ -163,12 +164,12 @@ namespace DXApplication1
                         To = mapping.GoalNumber,
                         CheckNumber = checkId
                     });
-                    AddInfoLog("[数据-C-接收成功]{" + data + "}" );
+                    AddInfoLog("[数据-C-处理成功，记录入表]{" + data + "}");
 
                 }
                 catch (Exception e)
                 {
-                    AddErrorLog("[数据-C-处理失败]{" + data + "}:"+ e.Message);
+                    AddErrorLog("[数据-C-处理失败]{" + data + "}:" + e.Message);
                 }
             }
         }
@@ -198,7 +199,8 @@ namespace DXApplication1
             };
             CarsDbQueue.Enqueue(result);
             UpdateResultDataTable(result);
-            AddInfoLog("[数据-O-接收成功]{" + data + "}");
+            UpdateSortedTotalTotal();
+            AddInfoLog("[数据-O-处理成功]{" + data + "}");
             Console.WriteLine("小车编号 : {0} and 落格号 : {1}", carId, match.Groups[2].Value);
         }
         #endregion
@@ -206,22 +208,31 @@ namespace DXApplication1
         internal static void ServerConnected(string ipAddress)
         {
             var mapping = IpLabelMappings.SingleOrDefault(i => i.ip == ipAddress);
-            if(mapping.label != null)
+            var index = Array.FindIndex(IpLabelMappings, i => i.ip == ipAddress);
+
+            AddInfoLog(string.Format("与供包台{1}成功连接，ip为{0}", ipAddress, (index + 1).ToString().PadLeft(2)));
+            if (mapping.label != null)
             {
-                mapping.label.Invoke(new Action(() => {
-                    mapping.label.Text = mapping.label.Text.Replace('离','在');
+                mapping.label.Invoke(new Action(() =>
+                {
+                    mapping.label.Text = mapping.label.Text.Replace('离', '在');
                 }));
             }
         }
         internal static void ServerDisConnected(string ipAddress)
         {
             var mapping = IpLabelMappings.SingleOrDefault(i => i.ip == ipAddress);
+            var index = Array.FindIndex(IpLabelMappings, i => i.ip == ipAddress);
+
+            AddInfoLog(string.Format("与供包台{1}断开连接，ip为{0}", ipAddress, (index + 1).ToString().PadLeft(2)));
+
             if (mapping.label != null)
             {
-                mapping.label.Invoke(new Action(() => {
+                mapping.label.Invoke(new Action(() =>
+                {
                     mapping.label.Text = mapping.label.Text.Replace('在', '离');
                 }));
             }
-        } 
+        }
     }
 }
