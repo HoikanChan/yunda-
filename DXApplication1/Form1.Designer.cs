@@ -29,13 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.PackageNoGridView = new System.Windows.Forms.DataGridView();
+            DevExpress.XtraGrid.GridLevelNode gridLevelNode1 = new DevExpress.XtraGrid.GridLevelNode();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.dataGridView = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.resultGridView = new System.Windows.Forms.DataGridView();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.label16 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
@@ -55,25 +53,25 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            ((System.ComponentModel.ISupportInitialize)(this.PackageNoGridView)).BeginInit();
+            this.dataGridView = new DevExpress.XtraGrid.GridControl();
+            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.PackageNoGridView = new DevExpress.XtraGrid.GridControl();
+            this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.resultGridView = new DevExpress.XtraGrid.GridControl();
+            this.gridView3 = new DevExpress.XtraGrid.Views.Grid.GridView();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.resultGridView)).BeginInit();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LogsListControl)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PackageNoGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.resultGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView3)).BeginInit();
             this.SuspendLayout();
-            // 
-            // PackageNoGridView
-            // 
-            this.PackageNoGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.PackageNoGridView.Location = new System.Drawing.Point(768, 10);
-            this.PackageNoGridView.Name = "PackageNoGridView";
-            this.PackageNoGridView.RowTemplate.Height = 23;
-            this.PackageNoGridView.Size = new System.Drawing.Size(354, 494);
-            this.PackageNoGridView.TabIndex = 1;
             // 
             // tabControl1
             // 
@@ -89,8 +87,8 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.dataGridView);
             this.tabPage1.Controls.Add(this.PackageNoGridView);
+            this.tabPage1.Controls.Add(this.dataGridView);
             this.tabPage1.Location = new System.Drawing.Point(4, 23);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -98,15 +96,6 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "监控报表";
             this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // dataGridView
-            // 
-            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView.Location = new System.Drawing.Point(6, 10);
-            this.dataGridView.Name = "dataGridView";
-            this.dataGridView.RowTemplate.Height = 23;
-            this.dataGridView.Size = new System.Drawing.Size(745, 494);
-            this.dataGridView.TabIndex = 3;
             // 
             // tabPage2
             // 
@@ -118,15 +107,6 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "分拣结果";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // resultGridView
-            // 
-            this.resultGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.resultGridView.Location = new System.Drawing.Point(6, 15);
-            this.resultGridView.Name = "resultGridView";
-            this.resultGridView.RowTemplate.Height = 23;
-            this.resultGridView.Size = new System.Drawing.Size(1121, 489);
-            this.resultGridView.TabIndex = 0;
             // 
             // tabPage3
             // 
@@ -330,6 +310,54 @@
             this.tabPage4.Text = "日志记录";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // dataGridView
+            // 
+            this.dataGridView.Location = new System.Drawing.Point(16, 10);
+            this.dataGridView.MainView = this.gridView1;
+            this.dataGridView.Name = "dataGridView";
+            this.dataGridView.Size = new System.Drawing.Size(730, 480);
+            this.dataGridView.TabIndex = 2;
+            this.dataGridView.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView1});
+            // 
+            // gridView1
+            // 
+            this.gridView1.GridControl = this.dataGridView;
+            this.gridView1.Name = "gridView1";
+            // 
+            // PackageNoGridView
+            // 
+            gridLevelNode1.RelationName = "Level1";
+            this.PackageNoGridView.LevelTree.Nodes.AddRange(new DevExpress.XtraGrid.GridLevelNode[] {
+            gridLevelNode1});
+            this.PackageNoGridView.Location = new System.Drawing.Point(752, 10);
+            this.PackageNoGridView.MainView = this.gridView2;
+            this.PackageNoGridView.Name = "PackageNoGridView";
+            this.PackageNoGridView.Size = new System.Drawing.Size(400, 480);
+            this.PackageNoGridView.TabIndex = 3;
+            this.PackageNoGridView.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView2});
+            // 
+            // gridView2
+            // 
+            this.gridView2.GridControl = this.PackageNoGridView;
+            this.gridView2.Name = "gridView2";
+            // 
+            // resultGridView
+            // 
+            this.resultGridView.Location = new System.Drawing.Point(16, 18);
+            this.resultGridView.MainView = this.gridView3;
+            this.resultGridView.Name = "resultGridView";
+            this.resultGridView.Size = new System.Drawing.Size(483, 236);
+            this.resultGridView.TabIndex = 0;
+            this.resultGridView.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView3});
+            // 
+            // gridView3
+            // 
+            this.gridView3.GridControl = this.resultGridView;
+            this.gridView3.Name = "gridView3";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -339,29 +367,29 @@
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.PackageNoGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.resultGridView)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LogsListControl)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PackageNoGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.resultGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView3)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-        private System.Windows.Forms.DataGridView PackageNoGridView;
         private System.Windows.Forms.BindingSource bindingSource1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage4;
-        private System.Windows.Forms.DataGridView resultGridView;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
@@ -380,6 +408,12 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label13;
+        private DevExpress.XtraGrid.GridControl dataGridView;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
+        private DevExpress.XtraGrid.GridControl PackageNoGridView;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView2;
+        private DevExpress.XtraGrid.GridControl resultGridView;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView3;
     }
 }
 
