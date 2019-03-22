@@ -647,3 +647,12 @@ E:\workspace-hoikan\yunda-workspace\新建文件夹 (2)\yunda-\DXApplication1\bi
 E:\workspace-hoikan\yunda-workspace\新建文件夹 (2)\yunda-\DXApplication1\bin\Debug\DXApplication1.application
 E:\workspace-hoikan\yunda-workspace\新建文件夹 (2)\yunda-\DXApplication1\obj\Debug\DXApplication1.exe.manifest
 E:\workspace-hoikan\yunda-workspace\新建文件夹 (2)\yunda-\DXApplication1\obj\Debug\DXApplication1.application
+E:\workspace-hoikan\yunda-workspace\新建文件夹 (2)\yunda-\DXApplication1\obj\Debug\DXApplication1.LoginForm.resources
+E:\workspace-hoikan\yunda-workspace\新建文件夹 (2)\yunda-\DXApplication1\obj\Debug\DXApplication1.FactoryForm.resources
+E:\workspace-hoikan\yunda-workspace\新建文件夹 (2)\yunda-\DXApplication1\bin\Debug\System.Data.SQLite.dll
+E:\workspace-hoikan\yunda-workspace\新建文件夹 (2)\yunda-\DXApplication1\bin\Debug\System.Data.SQLite.EF6.dll
+E:\workspace-hoikan\yunda-workspace\新建文件夹 (2)\yunda-\DXApplication1\bin\Debug\System.Data.SQLite.Linq.dll
+E:\workspace-hoikan\yunda-workspace\新建文件夹 (2)\yunda-\DXApplication1\bin\Debug\System.Data.SQLite.xml
+E:\workspace-hoikan\yunda-workspace\新建文件夹 (2)\yunda-\DXApplication1\bin\Debug\System.Data.SQLite.dll.config
+E:\workspace-hoikan\yunda-workspace\新建文件夹 (2)\yunda-\DXApplication1\bin\Debug\Dapper.dll
+E:\workspace-hoikan\yunda-workspace\新建文件夹 (2)\yunda-\DXApplication1\bin\Debug\Dapper.xml

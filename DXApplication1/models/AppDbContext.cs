@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace DXApplication1.models
         public DbSet<PackageGridMapping> PackageGridMappings { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseMySql("Data Source=localhost;port=3306;Database=yunda;User=root;CharSet=utf8;Password=123456;");
+        => optionsBuilder.UseMySql(ConfigurationManager.ConnectionStrings["mysql"].ConnectionString);
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

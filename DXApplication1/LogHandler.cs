@@ -45,6 +45,9 @@ namespace DXApplication1
                     try
                     {
                         string logstring = LogsQueue.Dequeue().ToString();
+
+                        UpdateCameraStateText();
+
                         Logger.WriteLog_info(typeof(Form1), logstring);
                         bool scroll = false;
                         LogsListControl.Invoke(new Action(() =>

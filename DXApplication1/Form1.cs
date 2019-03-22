@@ -9,12 +9,16 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using System.Configuration;
+
 
 namespace DXApplication1
 {
     public partial class Form1 : DevExpress.XtraEditors.XtraForm
     {
         public IPEndPoint serverIpEndpoint { get; private set; }
+        public string MainPlcIp = ConfigurationManager.AppSettings["MainPclIp"];
+
         static public DataTable StateDataTable;
         static public DataTable ResultDataTable;
 
@@ -33,7 +37,7 @@ namespace DXApplication1
             public string ip;
             public Label label;
         }
-        public static IpLabelMapping[] IpLabelMappings = new IpLabelMapping[16];
+        public static IpLabelMapping[] IpLabelMappings = new IpLabelMapping[17];
         // 【定义小车货物重量】
         struct CarWeigthData
         {
@@ -125,6 +129,10 @@ namespace DXApplication1
 
             });
             resultGridView.DataSource = ResultDataTable;
+            gridView1.ShowFindPanel();
+            gridView2.ShowFindPanel();
+            gridView3.ShowFindPanel();
+
         }
         #endregion
 
@@ -180,6 +188,7 @@ namespace DXApplication1
 
         }
         #endregion
+
         public void UpdateSortedTotalTotal()
         {
             if (sortedTotalLabel.InvokeRequired)
@@ -192,28 +201,24 @@ namespace DXApplication1
             }
 
         }
-        #region
-        #endregion
-        //for (int i = 0; i < 20; i++)
-        //{
-        //    DataRow dr = dt.NewRow();//创建1行
-        //    dr[0] = i;//添加第一列数据
-        //    dr[1] = Convert.ToString((i + 80) / 3);//添加第二列数据
-        //    DataTable.Rows.Add(dr);//把行加入到；列表中     
-        //}
+
+
         private void Form1_Load(object sender, EventArgs e)
         {
-            Labels = new List<Label>() { label1, label2, label3, label4, label5, label7, label6, label8, label9, label11, label10, label2, label3, label4, label5, label7 };
+            Labels = new List<Label>() { MainPlcStateLabel, label1, label2, label3, label4, label5, label7, label6, label8, label9, label11, label10, label2, label3, label4, label5, label7 };
+
             using (var context = new AppDbContext())
             {
                 context.Database.EnsureCreated();
             }
-            Console.Write("here");
             CarsDict = new Dictionary<string, Car>();
+
             InitStateDataTable();
             InitPackageNoTable();
             InitResultDataTable();
             InitClientsIpAddress();
+            InitCameraState();
+
             // 【分拣机服务端初始化】
             IPAddress serverIP = IPAddress.Parse("127.0.0.1");
             serverIpEndpoint = new IPEndPoint(serverIP, 8080);
@@ -236,14 +241,19 @@ namespace DXApplication1
 
         }
 
+        #region 初始化 IP地址和Label对应关系
         private void InitClientsIpAddress()
         {
-            for (int i = 0; i < 16; i++)
+            IpLabelMappings[0].label = Labels[0];
+            IpLabelMappings[0].ip = MainPlcIp;
+            for (int i = 1; i <= 16; i++)
             {
                 IpLabelMappings[i].label = Labels[i];
                 IpLabelMappings[i].ip = "127.0.0.1:40" + i.ToString().PadLeft(2, '0');
             }
         }
+        #endregion
+
 
         private void label17_Click(object sender, EventArgs e)
         {
@@ -256,6 +266,33 @@ namespace DXApplication1
         }
 
         private void label18_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            DialogResult result = new LoginForm().ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                Form factoryForm = new FactoryForm(this);
+                factoryForm.Owner = this;
+                factoryForm.Show();
+            }
+
+        }
+
+        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void tabPage3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
         {
 
         }

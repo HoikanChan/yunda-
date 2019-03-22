@@ -18,6 +18,7 @@ namespace DXApplication1
         {
             while (true)
             {
+
                 using (var context = new AppDbContext())
                 {
                     try
@@ -33,28 +34,45 @@ namespace DXApplication1
                             }
                             Array.ForEach(cars, Car => context.Cars.Add(Car));
                         }
-                        //if (LogsQueue.Count != 0)
-                        //{
-                        //    lock (LogsQueue)
-                        //    {
-                        //        logs = LogsQueue.ToArray();
-                        //        LogsQueue.Clear();
-                        //    }
-                        //    Array.ForEach(logs, Log => context.Logs.Add(Log));
-                        //}
-                            if (cars.Length != 0 || logs.Length != 0)
+                        if (LogsQueue.Count != 0)
+                        {
+
+                            //lock (LogsQueue)
+                            //{
+                            //    logs = LogsQueue.ToArray();
+                            //    LogsQueue.Clear();
+                            //}
+                            //Array.ForEach(logs, Log => context.Logs.Add(Log));
+                        }
+                        if (cars.Length != 0 || logs.Length != 0)
                         {
                             int result = context.SaveChanges();
                             Console.WriteLine("已插入{0}条数据", result);
                         }
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         AddErrorLog("【写入数据库错误】" + e.Message);
                     }
                 }
                 Thread.Sleep(1000);
             }
+        }
+
+        private void UpdateCameraStateText()
+        {
+            cameraStates.ForEach(camState =>
+            {
+                this.Invoke(new Action(() =>
+                {
+                    camState.TotalLabel.Text = camState.CameraScaned.ToString();
+                    string correctPercent = camState.getCorrectPercent();
+                    Console.WriteLine(correctPercent);
+                    camState.PercentLabel.Text = string.Format("({0}%)",correctPercent);
+                    camState.ErrorLabel.Text = camState.CameraError.ToString();
+                    camState.CorrectLabel.Text = (camState.CameraScaned - camState.CameraError).ToString();
+                }));
+            });
         }
     }
 }
