@@ -41,6 +41,7 @@ namespace DXApplication1
         }
         private void FixedTestStartBtn_Click(object sender, EventArgs e)
         {
+            FixedProgressBarControl.Decrement(Form1.CarTotals);
             if (!string.IsNullOrEmpty(FixedTestGridText.Text) && !string.IsNullOrEmpty(FixedTestRateText.Text))
             {
                 FixedProgressBarControl.Visible = true;
@@ -57,6 +58,8 @@ namespace DXApplication1
         {
             FixedProgressBarControl.Decrement(Form1.CarTotals);
             FixedProgressBarControl.Visible = false;
+            RandomProgressBarControl.Decrement(Form1.CarTotals);
+            RandomProgressBarControl.Visible = false;
         }
         private void FixedTestGridText_EditValueChanged(object sender, EventArgs e)
         {
@@ -70,6 +73,7 @@ namespace DXApplication1
 
         private void RamdomTestStartBtn_Click(object sender, EventArgs e)
         {
+            RandomProgressBarControl.Decrement(Form1.CarTotals);
             if (!string.IsNullOrEmpty(RandomMinText.Text) && !string.IsNullOrEmpty(RandomTestRateText.Text) && !string.IsNullOrEmpty(RandomMaxText.Text))
             {
                 RandomProgressBarControl.Visible = true;
@@ -86,6 +90,17 @@ namespace DXApplication1
                     Thread.Sleep(int.Parse(RandomTestRateText.Text));
                 }
             }
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FixedProgressBarControl.Visible = false;
+            RandomProgressBarControl.Visible = false;
+        }
+
+        private void FixedProgressBarControl_ControlAdded(object sender, ControlEventArgs e)
+        {
+
         }
     }
 }

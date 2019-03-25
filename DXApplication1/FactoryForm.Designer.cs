@@ -30,6 +30,7 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.FixedProgressBarControl = new DevExpress.XtraEditors.ProgressBarControl();
             this.label6 = new System.Windows.Forms.Label();
             this.FixedTestStartBtn = new DevExpress.XtraEditors.SimpleButton();
             this.FixedTestRateText = new DevExpress.XtraEditors.TextEdit();
@@ -37,6 +38,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.FixedTestGridText = new DevExpress.XtraEditors.TextEdit();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.RandomProgressBarControl = new DevExpress.XtraEditors.ProgressBarControl();
             this.label7 = new System.Windows.Forms.Label();
             this.RandomMaxText = new DevExpress.XtraEditors.TextEdit();
             this.label5 = new System.Windows.Forms.Label();
@@ -45,18 +47,16 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.RandomMinText = new DevExpress.XtraEditors.TextEdit();
-            this.FixedProgressBarControl = new DevExpress.XtraEditors.ProgressBarControl();
-            this.RandomProgressBarControl = new DevExpress.XtraEditors.ProgressBarControl();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.FixedProgressBarControl.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FixedTestRateText.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FixedTestGridText.Properties)).BeginInit();
             this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.RandomProgressBarControl.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RandomMaxText.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RandomTestRateText.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RandomMinText.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FixedProgressBarControl.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.RandomProgressBarControl.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -70,6 +70,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(608, 358);
             this.tabControl1.TabIndex = 0;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // tabPage1
             // 
@@ -87,6 +88,15 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "定格测试";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // FixedProgressBarControl
+            // 
+            this.FixedProgressBarControl.Location = new System.Drawing.Point(0, 6);
+            this.FixedProgressBarControl.Name = "FixedProgressBarControl";
+            this.FixedProgressBarControl.Size = new System.Drawing.Size(597, 18);
+            this.FixedProgressBarControl.TabIndex = 6;
+            this.FixedProgressBarControl.Visible = false;
+            this.FixedProgressBarControl.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.FixedProgressBarControl_ControlAdded);
             // 
             // label6
             // 
@@ -160,6 +170,14 @@
             this.tabPage2.Text = "随机测试";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // RandomProgressBarControl
+            // 
+            this.RandomProgressBarControl.Location = new System.Drawing.Point(-3, 6);
+            this.RandomProgressBarControl.Name = "RandomProgressBarControl";
+            this.RandomProgressBarControl.Size = new System.Drawing.Size(603, 18);
+            this.RandomProgressBarControl.TabIndex = 13;
+            this.RandomProgressBarControl.Visible = false;
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -226,22 +244,6 @@
             this.RandomMinText.Size = new System.Drawing.Size(74, 20);
             this.RandomMinText.TabIndex = 5;
             // 
-            // FixedProgressBarControl
-            // 
-            this.FixedProgressBarControl.Location = new System.Drawing.Point(0, 6);
-            this.FixedProgressBarControl.Name = "FixedProgressBarControl";
-            this.FixedProgressBarControl.Size = new System.Drawing.Size(597, 18);
-            this.FixedProgressBarControl.TabIndex = 6;
-            this.FixedProgressBarControl.Visible = false;
-            // 
-            // RandomProgressBarControl
-            // 
-            this.RandomProgressBarControl.Location = new System.Drawing.Point(-3, 6);
-            this.RandomProgressBarControl.Name = "RandomProgressBarControl";
-            this.RandomProgressBarControl.Size = new System.Drawing.Size(603, 18);
-            this.RandomProgressBarControl.TabIndex = 13;
-            this.RandomProgressBarControl.Visible = false;
-            // 
             // FactoryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -254,15 +256,15 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.FixedProgressBarControl.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.FixedTestRateText.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.FixedTestGridText.Properties)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.RandomProgressBarControl.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RandomMaxText.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RandomTestRateText.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RandomMinText.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FixedProgressBarControl.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.RandomProgressBarControl.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }

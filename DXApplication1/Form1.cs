@@ -29,6 +29,8 @@ namespace DXApplication1
         public const int CarTotals = 100;
 
         public int SortedTotal = 0;
+        public int TodaySortedTotal = 0;
+
 
         public List<Log> LogsList = new List<Log>();
         public List<Label> Labels;
@@ -56,7 +58,7 @@ namespace DXApplication1
         private void InitStateDataTable()
         {
             StateDataTable = new DataTable();//创建DataTable对象
-            new List<string> { "小车序号", "单号", "称重", "格口", "集包编号", "目的站点" }.ForEach(colName =>
+            new List<string> { "小车序号", "单号", "格口", "集包编号", "目的站点","分拣机号","扫描时间" }.ForEach(colName =>
            {
                StateDataTable.Columns.Add(colName, System.Type.GetType("System.String"));
 
@@ -123,7 +125,7 @@ namespace DXApplication1
         private void InitResultDataTable()
         {
             ResultDataTable = new DataTable();//创建DataTable对象
-            new List<string> { "小车号", "单号", "称重台号", "重量", "格口", "集包编号", "目的站点", "扫描时间", "称重时间", "落格时间" }.ForEach(colName =>
+            new List<string> { "小车号", "单号", "格口", "集包编号", "目的站点","分拣机号", "扫描时间", "落格时间" }.ForEach(colName =>
             {
                 ResultDataTable.Columns.Add(colName, System.Type.GetType("System.String"));
 
@@ -139,13 +141,16 @@ namespace DXApplication1
         #region 更新小车状态表
         public void UpdateDataTable(Car car)
         {
-            object[] dataRow = new object[6];
+            object[] dataRow = new object[7];
             dataRow[0] = car.CarId;
             dataRow[1] = car.OrderNumber;
-            dataRow[2] = car.Weight;
-            dataRow[3] = car.CheckNumber;
-            dataRow[4] = car.PackageNumber;
-            dataRow[5] = car.To;
+            //dataRow[2] = car.Weight;
+            dataRow[2] = car.CheckNumber;
+            dataRow[3] = car.PackageNumber;
+            dataRow[4] = car.To;
+            dataRow[5] = car.SorterId;
+            dataRow[6] = car.SacnTime; 
+
             Console.WriteLine("写入小车表格：" + car.ToString());
             dataGridView.Invoke(new Action(() =>
             {
@@ -165,14 +170,14 @@ namespace DXApplication1
             DataRow dataRow = ResultDataTable.NewRow();
             dataRow[0] = car.CarId;
             dataRow[1] = car.OrderNumber;
-            dataRow[2] = car.SorterId;
-            dataRow[3] = car.Weight;
-            dataRow[4] = car.CheckNumber;
-            dataRow[5] = car.PackageNumber;
-            dataRow[6] = car.To;
-            dataRow[7] = car.SacnTime;
-            dataRow[8] = car.WeightTime;
-            dataRow[9] = car.ArrivalTime;
+            //dataRow[2] = car.SorterId;
+            //dataRow[3] = car.Weight;
+            dataRow[2] = car.CheckNumber;
+            dataRow[3] = car.PackageNumber;
+            dataRow[4] = car.To;
+            dataRow[5] = car.SorterId;
+            dataRow[6] = car.SacnTime;
+            dataRow[7] = car.ArrivalTime;
 
             Console.WriteLine("写入小车表格：" + car.ToString());
             // 把分拣结果写入到结果表中
@@ -197,6 +202,11 @@ namespace DXApplication1
                 {
                     SortedTotal++;
                     sortedTotalLabel.Text = sortedTotalLabel.Text.Substring(0, 5) + SortedTotal.ToString();
+                }));
+                todaySortedTotalLabel.Invoke(new Action(() =>
+                {
+                    TodaySortedTotal++;
+                    todaySortedTotalLabel.Text = todaySortedTotalLabel.Text.Substring(0, 7) + TodaySortedTotal.ToString();
                 }));
             }
 

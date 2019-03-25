@@ -205,6 +205,7 @@ namespace DXApplication1
                         SacnTime = utils.Times.GetTimeStamp(),
                         PackageNumber = packageNumber,
                         //Weight = weight,
+                        SorterId = cameraNumber,
                         To = resultMapping.GoalNumber,
                         CheckNumber = resultMapping.CheckId
                     });
@@ -231,14 +232,14 @@ namespace DXApplication1
             Car result = new Car()
             {
                 CarId = carId,
-                SorterId = CarWeigthDatas[carIndex].sorterId,
                 OrderNumber = row[1].ToString(),
-                Weight = row[2].ToString(),
-                CheckNumber = row[3].ToString(),
-                PackageNumber = row[4].ToString(),
-                To = row[5].ToString(),
-                SacnTime = CarWeigthDatas[carIndex].scan_time,
-                WeightTime = CarWeigthDatas[carIndex].weight_time,
+                //Weight = row[2].ToString(),
+                CheckNumber = row[2].ToString(),
+                PackageNumber = row[3].ToString(),
+                To = row[4].ToString(),
+                SorterId = row[5].ToString(),
+                SacnTime = row[6].ToString(),
+                //WeightTime = CarWeigthDatas[carIndex].weight_time,
                 ArrivalTime = Times.GetTimeStamp()
             };
             CarsDbQueue.Enqueue(result);
