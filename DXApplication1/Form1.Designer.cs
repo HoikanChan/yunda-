@@ -31,7 +31,7 @@ namespace DXApplication1
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            DevExpress.XtraGrid.GridLevelNode gridLevelNode1 = new DevExpress.XtraGrid.GridLevelNode();
+            DevExpress.XtraGrid.GridLevelNode gridLevelNode2 = new DevExpress.XtraGrid.GridLevelNode();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -83,6 +83,7 @@ namespace DXApplication1
             this.label17 = new System.Windows.Forms.Label();
             this.checkedComboBoxEdit1 = new DevExpress.XtraEditors.CheckedComboBoxEdit();
             this.todaySortedTotalLabel = new System.Windows.Forms.Label();
+            this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -102,6 +103,8 @@ namespace DXApplication1
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.checkedComboBoxEdit2.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkedComboBoxEdit1.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
+            this.panelControl1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -130,9 +133,9 @@ namespace DXApplication1
             // 
             // PackageNoGridView
             // 
-            gridLevelNode1.RelationName = "Level1";
+            gridLevelNode2.RelationName = "Level1";
             this.PackageNoGridView.LevelTree.Nodes.AddRange(new DevExpress.XtraGrid.GridLevelNode[] {
-            gridLevelNode1});
+            gridLevelNode2});
             this.PackageNoGridView.Location = new System.Drawing.Point(742, 7);
             this.PackageNoGridView.MainView = this.gridView2;
             this.PackageNoGridView.Name = "PackageNoGridView";
@@ -195,24 +198,8 @@ namespace DXApplication1
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.todaySortedTotalLabel);
+            this.tabPage3.Controls.Add(this.panelControl1);
             this.tabPage3.Controls.Add(this.LogsListControl);
-            this.tabPage3.Controls.Add(this.Cam2Percent);
-            this.tabPage3.Controls.Add(this.Cam1Percent);
-            this.tabPage3.Controls.Add(this.Cam2Total);
-            this.tabPage3.Controls.Add(this.Cam2Error);
-            this.tabPage3.Controls.Add(this.Cam2Correct);
-            this.tabPage3.Controls.Add(this.Cam1Error);
-            this.tabPage3.Controls.Add(this.Cam1Correct);
-            this.tabPage3.Controls.Add(this.Cam1Total);
-            this.tabPage3.Controls.Add(this.pictureBox4);
-            this.tabPage3.Controls.Add(this.pictureBox3);
-            this.tabPage3.Controls.Add(this.pictureBox2);
-            this.tabPage3.Controls.Add(this.pictureBox1);
-            this.tabPage3.Controls.Add(this.label20);
-            this.tabPage3.Controls.Add(this.label19);
-            this.tabPage3.Controls.Add(this.MainPlcStateLabel);
-            this.tabPage3.Controls.Add(this.sortedTotalLabel);
             this.tabPage3.Controls.Add(this.label16);
             this.tabPage3.Controls.Add(this.label14);
             this.tabPage3.Controls.Add(this.label12);
@@ -223,12 +210,10 @@ namespace DXApplication1
             this.tabPage3.Controls.Add(this.label4);
             this.tabPage3.Controls.Add(this.label10);
             this.tabPage3.Controls.Add(this.label6);
-            this.tabPage3.Controls.Add(this.label2);
             this.tabPage3.Controls.Add(this.label9);
             this.tabPage3.Controls.Add(this.label7);
             this.tabPage3.Controls.Add(this.label5);
             this.tabPage3.Controls.Add(this.label3);
-            this.tabPage3.Controls.Add(this.label1);
             this.tabPage3.Location = new System.Drawing.Point(4, 23);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Size = new System.Drawing.Size(1158, 510);
@@ -241,7 +226,7 @@ namespace DXApplication1
             // 
             this.Cam2Percent.AutoSize = true;
             this.Cam2Percent.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Cam2Percent.Location = new System.Drawing.Point(241, 198);
+            this.Cam2Percent.Location = new System.Drawing.Point(235, 240);
             this.Cam2Percent.Name = "Cam2Percent";
             this.Cam2Percent.Size = new System.Drawing.Size(76, 21);
             this.Cam2Percent.TabIndex = 18;
@@ -251,7 +236,7 @@ namespace DXApplication1
             // 
             this.Cam1Percent.AutoSize = true;
             this.Cam1Percent.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Cam1Percent.Location = new System.Drawing.Point(241, 115);
+            this.Cam1Percent.Location = new System.Drawing.Point(235, 157);
             this.Cam1Percent.Name = "Cam1Percent";
             this.Cam1Percent.Size = new System.Drawing.Size(76, 21);
             this.Cam1Percent.TabIndex = 17;
@@ -261,7 +246,7 @@ namespace DXApplication1
             // 
             this.Cam2Total.AutoSize = true;
             this.Cam2Total.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Cam2Total.Location = new System.Drawing.Point(195, 200);
+            this.Cam2Total.Location = new System.Drawing.Point(189, 242);
             this.Cam2Total.Name = "Cam2Total";
             this.Cam2Total.Size = new System.Drawing.Size(19, 21);
             this.Cam2Total.TabIndex = 16;
@@ -271,7 +256,7 @@ namespace DXApplication1
             // 
             this.Cam2Error.AutoSize = true;
             this.Cam2Error.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Cam2Error.Location = new System.Drawing.Point(195, 233);
+            this.Cam2Error.Location = new System.Drawing.Point(189, 275);
             this.Cam2Error.Name = "Cam2Error";
             this.Cam2Error.Size = new System.Drawing.Size(19, 21);
             this.Cam2Error.TabIndex = 15;
@@ -281,7 +266,7 @@ namespace DXApplication1
             // 
             this.Cam2Correct.AutoSize = true;
             this.Cam2Correct.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Cam2Correct.Location = new System.Drawing.Point(77, 234);
+            this.Cam2Correct.Location = new System.Drawing.Point(71, 276);
             this.Cam2Correct.Name = "Cam2Correct";
             this.Cam2Correct.Size = new System.Drawing.Size(19, 21);
             this.Cam2Correct.TabIndex = 14;
@@ -291,7 +276,7 @@ namespace DXApplication1
             // 
             this.Cam1Error.AutoSize = true;
             this.Cam1Error.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Cam1Error.Location = new System.Drawing.Point(195, 150);
+            this.Cam1Error.Location = new System.Drawing.Point(189, 192);
             this.Cam1Error.Name = "Cam1Error";
             this.Cam1Error.Size = new System.Drawing.Size(19, 21);
             this.Cam1Error.TabIndex = 13;
@@ -301,7 +286,7 @@ namespace DXApplication1
             // 
             this.Cam1Correct.AutoSize = true;
             this.Cam1Correct.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Cam1Correct.Location = new System.Drawing.Point(77, 150);
+            this.Cam1Correct.Location = new System.Drawing.Point(71, 192);
             this.Cam1Correct.Name = "Cam1Correct";
             this.Cam1Correct.Size = new System.Drawing.Size(19, 21);
             this.Cam1Correct.TabIndex = 12;
@@ -311,7 +296,7 @@ namespace DXApplication1
             // 
             this.Cam1Total.AutoSize = true;
             this.Cam1Total.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Cam1Total.Location = new System.Drawing.Point(195, 115);
+            this.Cam1Total.Location = new System.Drawing.Point(189, 157);
             this.Cam1Total.Name = "Cam1Total";
             this.Cam1Total.Size = new System.Drawing.Size(19, 21);
             this.Cam1Total.TabIndex = 11;
@@ -320,7 +305,7 @@ namespace DXApplication1
             // pictureBox4
             // 
             this.pictureBox4.Image = global::DXApplication1.Properties.Resources.error;
-            this.pictureBox4.Location = new System.Drawing.Point(133, 234);
+            this.pictureBox4.Location = new System.Drawing.Point(127, 276);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(20, 20);
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -330,7 +315,7 @@ namespace DXApplication1
             // pictureBox3
             // 
             this.pictureBox3.Image = global::DXApplication1.Properties.Resources._true;
-            this.pictureBox3.Location = new System.Drawing.Point(37, 234);
+            this.pictureBox3.Location = new System.Drawing.Point(31, 276);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(20, 20);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -340,7 +325,7 @@ namespace DXApplication1
             // pictureBox2
             // 
             this.pictureBox2.Image = global::DXApplication1.Properties.Resources.error;
-            this.pictureBox2.Location = new System.Drawing.Point(133, 150);
+            this.pictureBox2.Location = new System.Drawing.Point(127, 192);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(20, 20);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -350,7 +335,7 @@ namespace DXApplication1
             // pictureBox1
             // 
             this.pictureBox1.Image = global::DXApplication1.Properties.Resources._true;
-            this.pictureBox1.Location = new System.Drawing.Point(37, 150);
+            this.pictureBox1.Location = new System.Drawing.Point(31, 192);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(20, 20);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -362,7 +347,7 @@ namespace DXApplication1
             // 
             this.label20.AutoSize = true;
             this.label20.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.Location = new System.Drawing.Point(33, 197);
+            this.label20.Location = new System.Drawing.Point(27, 239);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(156, 21);
             this.label20.TabIndex = 6;
@@ -372,7 +357,7 @@ namespace DXApplication1
             // 
             this.label19.AutoSize = true;
             this.label19.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(33, 114);
+            this.label19.Location = new System.Drawing.Point(27, 156);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(156, 21);
             this.label19.TabIndex = 5;
@@ -382,7 +367,7 @@ namespace DXApplication1
             // 
             this.MainPlcStateLabel.AutoSize = true;
             this.MainPlcStateLabel.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MainPlcStateLabel.Location = new System.Drawing.Point(33, 59);
+            this.MainPlcStateLabel.Location = new System.Drawing.Point(27, 101);
             this.MainPlcStateLabel.Name = "MainPlcStateLabel";
             this.MainPlcStateLabel.Size = new System.Drawing.Size(151, 21);
             this.MainPlcStateLabel.TabIndex = 4;
@@ -391,7 +376,7 @@ namespace DXApplication1
             // sortedTotalLabel
             // 
             this.sortedTotalLabel.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.sortedTotalLabel.Location = new System.Drawing.Point(33, 15);
+            this.sortedTotalLabel.Location = new System.Drawing.Point(27, 57);
             this.sortedTotalLabel.Name = "sortedTotalLabel";
             this.sortedTotalLabel.Size = new System.Drawing.Size(156, 27);
             this.sortedTotalLabel.TabIndex = 0;
@@ -486,7 +471,7 @@ namespace DXApplication1
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(221, 337);
+            this.label4.Location = new System.Drawing.Point(987, 297);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(156, 21);
             this.label4.TabIndex = 2;
@@ -519,7 +504,7 @@ namespace DXApplication1
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label2.Location = new System.Drawing.Point(221, 297);
+            this.label2.Location = new System.Drawing.Point(215, 395);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(156, 21);
             this.label2.TabIndex = 2;
@@ -563,7 +548,7 @@ namespace DXApplication1
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(33, 337);
+            this.label3.Location = new System.Drawing.Point(799, 297);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(156, 21);
             this.label3.TabIndex = 2;
@@ -574,7 +559,7 @@ namespace DXApplication1
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(33, 297);
+            this.label1.Location = new System.Drawing.Point(27, 395);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(156, 21);
             this.label1.TabIndex = 2;
@@ -655,11 +640,37 @@ namespace DXApplication1
             // todaySortedTotalLabel
             // 
             this.todaySortedTotalLabel.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.todaySortedTotalLabel.Location = new System.Drawing.Point(208, 15);
+            this.todaySortedTotalLabel.Location = new System.Drawing.Point(202, 57);
             this.todaySortedTotalLabel.Name = "todaySortedTotalLabel";
             this.todaySortedTotalLabel.Size = new System.Drawing.Size(169, 27);
             this.todaySortedTotalLabel.TabIndex = 19;
             this.todaySortedTotalLabel.Text = "本日分拣总数： 0";
+            // 
+            // panelControl1
+            // 
+            this.panelControl1.Controls.Add(this.label19);
+            this.panelControl1.Controls.Add(this.todaySortedTotalLabel);
+            this.panelControl1.Controls.Add(this.sortedTotalLabel);
+            this.panelControl1.Controls.Add(this.MainPlcStateLabel);
+            this.panelControl1.Controls.Add(this.Cam2Percent);
+            this.panelControl1.Controls.Add(this.label20);
+            this.panelControl1.Controls.Add(this.Cam1Percent);
+            this.panelControl1.Controls.Add(this.pictureBox1);
+            this.panelControl1.Controls.Add(this.Cam2Total);
+            this.panelControl1.Controls.Add(this.pictureBox2);
+            this.panelControl1.Controls.Add(this.Cam2Error);
+            this.panelControl1.Controls.Add(this.pictureBox3);
+            this.panelControl1.Controls.Add(this.label2);
+            this.panelControl1.Controls.Add(this.Cam2Correct);
+            this.panelControl1.Controls.Add(this.pictureBox4);
+            this.panelControl1.Controls.Add(this.Cam1Error);
+            this.panelControl1.Controls.Add(this.Cam1Total);
+            this.panelControl1.Controls.Add(this.label1);
+            this.panelControl1.Controls.Add(this.Cam1Correct);
+            this.panelControl1.Location = new System.Drawing.Point(19, 12);
+            this.panelControl1.Name = "panelControl1";
+            this.panelControl1.Size = new System.Drawing.Size(405, 477);
+            this.panelControl1.TabIndex = 20;
             // 
             // Form1
             // 
@@ -693,6 +704,9 @@ namespace DXApplication1
             this.tabPage4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.checkedComboBoxEdit2.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkedComboBoxEdit1.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
+            this.panelControl1.ResumeLayout(false);
+            this.panelControl1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -749,6 +763,7 @@ namespace DXApplication1
         private System.Windows.Forms.Label Cam2Error;
         private System.Windows.Forms.Label Cam2Correct;
         private System.Windows.Forms.Label todaySortedTotalLabel;
+        private PanelControl panelControl1;
     }
 }
 
